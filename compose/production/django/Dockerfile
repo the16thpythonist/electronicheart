@@ -11,7 +11,9 @@ RUN apt-get update \
   # Translations dependencies
   && apt-get install -y gettext \
   # Required library for argon python package
-  && apt-get install libffi-dev \
+  && apt-get install -y libffi-dev \
+  # Required libraries for pillow python package
+  && apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev liblcms1-dev libopenjp2-7 libtiff5 \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
