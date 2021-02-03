@@ -13,7 +13,7 @@ RUN apt-get update \
   # Required library for argon python package
   && apt-get install -y libffi-dev \
   # Required libraries for pillow python package
-  && apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev liblcms1 liblcms-utils libopenjp2-7 libtiff5 \
+  && apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
