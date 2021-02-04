@@ -3,8 +3,8 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 
 const pages = {
-    'main': {
-        entry: './src/electronicheart/entry/main.js',
+    'frontpage': {
+        entry: './src/electronicheart/entry/frontpage.js',
         chunks: ['chunk-common']
     },
     'fruit-counter': {
@@ -33,7 +33,7 @@ module.exports = {
                 cacheGroups: {
                     state: {
                         /* As vuex state is not needed in all our entry points, we isolate it
-                         * in a separate chunk to be loaded only where needed. 
+                         * in a separate chunk to be loaded only where needed.
                          */
                         test: /[\\/]node_modules[\\/](vuex|vuex-persisted-state)/,
                         name: "chunk-state",
@@ -42,7 +42,7 @@ module.exports = {
                     },
                     vendor: {
                         /* This chunk contains modules that may be used in all entry points,
-                         * including Vue itself 
+                         * including Vue itself
                          */
                         test: /[\\/]node_modules[\\/]/,
                         name: "chunk-common",
@@ -81,5 +81,5 @@ module.exports = {
             .headers({"Access-Control-Allow-Origin": ["*"]})
 
     }
-};   
-    
+};
+

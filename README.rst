@@ -88,7 +88,7 @@ See detailed `cookiecutter-django Docker documentation`_.
 Vue
 ^^^
 
-This app integrates with a Vue multi-page app (MPA) located in ``vue_frontend``.  
+This app integrates with a Vue multi-page app (MPA) located in ``vue_frontend``.
 
 To initialize the frontend, from the ``vue_frontend`` directory, run::
 
@@ -104,6 +104,17 @@ And to build for deployment::
     $ npm run serve
 
 For more information, see ``vue_frontend/README.md``.
+
+
+Deploying for production
+------------------------
+
+The following section contains the information of the individual steps needed to deploy the website to a production
+server. We will assume, that the production server does not contain any relevant third party software yet. So the
+instructions will also cover the installation of these dependencies. The instructions assume a debian based operating
+system such as an Ubuntu server or the Raspberry Pi OS.
+
+The first step is to fetch the project source code from this git repository. If git is not
 
 
 
