@@ -114,7 +114,110 @@ server. We will assume, that the production server does not contain any relevant
 instructions will also cover the installation of these dependencies. The instructions assume a debian based operating
 system such as an Ubuntu server or the Raspberry Pi OS.
 
-The first step is to fetch the project source code from this git repository. If git is not
+The first step is to fetch the project source code from this git repository.
 
+.. code-block:: console
 
+    sudo apt-get install git
+    git clone https://github.com/the16thpythonist/electronicheart.git
+
+**The frontend.** To setup the frontend it is first necessary to install *node.js* on the machine. For that need to
+install *nvm* first.
+
+.. code-block:: console
+
+    sudo apt-get install curl
+    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+    source ~/.profile
+
+Using nvm's install command will install the most recent version of node js and the node package manager *npm*.
+
+.. code-block:: console
+
+    nvm install
+    node --version
+    npm --version
+
+We need npm to properly install the vue frontend of the application. First navigate to the corresponding frontend
+folder.
+
+.. code-block:: console
+
+    cd electronicheart/vue_frontend
+    npm install
+
+The installation should take a few minutes. After it is done we can run the "build" script to create the compiled and
+minified JS files for the frontend.
+
+.. code-block:: console
+
+    npm run build
+
+With this, the frontend installation is almost done. But we still need to adjust the environmental variables to use
+our hostname. For that edit the ".env" file within the frontend folder.
+
+.. code-block:: env
+
+    VUE_APP_STATIC_ROOT=http://{OUR HOSTNAME}/static
+    VUE_APP_API_ROOT=http://{OUR HOSTNAME}/api
+
+**The backend.** For the backend it is important to install docker first.
+
+.. code-block:: console
+
+    sudo apt-get install docker docker-compose
+
+Then we need to write the appropriate "env" files. For that, first navigate to the top level folder of the project and
+then start to create the necessary folder structure.
+
+.. code-block:: console
+
+    cd electronicheart
+    mkdir .envs
+    cd .envs
+    mkdir .production
+    cd .production
+    touch .django
+    touch .postgres
+
+First open the ".postgres" file and fill it with the following content:
+
+.. code-block:: env
+
+    POSTGRES_HOST=postgres
+    POSTGRES_PORT=5432
+    POSTGRES_DB=electronicheart
+    POSTGRES_USER={OUR USER}
+    POSTGRES_PASSWORD={OUR PASSWORD}
+
+Then open the ".django" file and fill it with the following env values, replacing the parts within curled brackets:
+
+.. code-block:: env
+
+    DJANGO_SETTINGS_MODULE=config.settings.production
+    DJANGO_SECRET_KEY={VERY LONG AND RANDOM STRING}
+    DJANGO_ADMIN_URL={ADMIN URL}/
+    DJANGO_ALLOWED_HOSTS=.{OUR DOMAIN NAME}
+
+    DJANGO_SECURE_SSL_REDIRECT=False
+    DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+
+    # This controls how many concurrent worker threads you want to have
+    WEB_CONCURRENCY=4
+
+    REDIS_URL=redis://redis:6379/0
+
+Using docker compose we can then build the necessary containers. For this navigate back to the top level folder first.
+
+.. code-block:: console
+
+    cd electronicheart
+    sudo docker-compose -f production.yml build
+
+Then we first need to apply all the data migrations and create a new super user.
+
+.. code-block:: console
+
+    sudo docker-compose -f production.yml run --rm django python manage.py migrate
+    sudo docker-compose -f production.yml run --rm django python manage.py createsuperuser
 
