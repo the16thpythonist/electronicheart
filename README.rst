@@ -116,7 +116,7 @@ system such as an Ubuntu server or the Raspberry Pi OS.
 
 The first step is to fetch the project source code from this git repository.
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt-get install git
     git clone https://github.com/the16thpythonist/electronicheart.git
@@ -124,7 +124,7 @@ The first step is to fetch the project source code from this git repository.
 **The frontend.** To setup the frontend it is first necessary to install *node.js* on the machine. For that need to
 install *nvm* first.
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt-get install curl
     curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
@@ -132,7 +132,7 @@ install *nvm* first.
 
 Using nvm's install command will install the most recent version of node js and the node package manager *npm*.
 
-.. code-block:: console
+.. code-block:: bash
 
     nvm install
     node --version
@@ -141,7 +141,7 @@ Using nvm's install command will install the most recent version of node js and 
 We need npm to properly install the vue frontend of the application. First navigate to the corresponding frontend
 folder.
 
-.. code-block:: console
+.. code-block:: bash
 
     cd electronicheart/vue_frontend
     npm install
@@ -149,7 +149,7 @@ folder.
 The installation should take a few minutes. After it is done we can run the "build" script to create the compiled and
 minified JS files for the frontend.
 
-.. code-block:: console
+.. code-block:: bash
 
     npm run build
 
@@ -163,14 +163,14 @@ our hostname. For that edit the ".env" file within the frontend folder.
 
 **The backend.** For the backend it is important to install docker first.
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt-get install docker docker-compose
 
 Then we need to write the appropriate "env" files. For that, first navigate to the top level folder of the project and
 then start to create the necessary folder structure.
 
-.. code-block:: console
+.. code-block:: bash
 
     cd electronicheart
     mkdir .envs
@@ -209,15 +209,21 @@ Then open the ".django" file and fill it with the following env values, replacin
 
 Using docker compose we can then build the necessary containers. For this navigate back to the top level folder first.
 
-.. code-block:: console
+.. code-block:: bash
 
     cd electronicheart
     sudo docker-compose -f production.yml build
 
 Then we first need to apply all the data migrations and create a new super user.
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo docker-compose -f production.yml run --rm django python manage.py migrate
     sudo docker-compose -f production.yml run --rm django python manage.py createsuperuser
 
+
+At last, the server can be started using the "up" command.
+
+.. code-block:: bash
+
+    sudo docker-compose -f production.yml up
