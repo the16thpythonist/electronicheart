@@ -1,14 +1,163 @@
 {% extends "base.html" %}
+{% load static %}
 {% load render_bundle from webpack_loader %}
 
+{% block css%}
+  <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock css %}
 
 {% block content %}
 
-<div id="app">
-    <frontpage>alternative</frontpage>
-</div>
+  <div class="bottom-overlay"></div>
 
-{% render_bundle 'chunk-common' %}
-{% render_bundle 'frontpage' %}
+  <div class="frontpage">
+    <frontpage>loading...</frontpage>
+  </div>
+
+  <div class="profile">
+    <div class="center-container">
+      <h1>Profile</h1>
+      <div class="separator"></div>
+      <div class="profile-container">
+        <div class="about-container">
+          <h2>About Me</h2>
+          <p class="about">
+            I am a student of electrical engineering at the Karlsruhe Institute of Technology with
+            a focus on control systems engineering. Besides university, I also do part time programming.
+            My main area of expertise is the Python programming language. With Python, I've dipped my toes
+            into all sorts of domains such as command line applications, GUIs, machine learning, optimization
+            algorithms, game and web development. Nowadays I find myself mainly tinkering with the web, but my
+            <em>heart</em> still aches for all things <em>electronic</em>.
+          </p>
+        </div>
+        <div class="profile-picture-container">
+          <img class="profile-picture" src="{% static 'images/profile_picture.jpg' %}" height="300px" width="300px">
+        </div>
+        <div class="detail-container">
+          <h2>Details</h2>
+          <div class="detail-item">
+            <strong>Name:</strong>
+            <p>Jonas Teufel</p>
+          </div>
+          <div class="detail-item">
+            <strong>Age:</strong>
+            <p>22 years</p>
+          </div>
+          <div class="detail-item">
+            <strong>Location:</strong>
+            <p>76131 Karlsruhe, Germany</p>
+          </div>
+          <div class="detail-item">
+            <strong>LinkedIn:</strong>
+            <p>Some link</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="experiences">
+    <div class="center-container">
+      <h1>Education</h1>
+      <div class="separator"></div>
+      <div class="experiences-container">
+        <div class="experience-item">
+          <div class="experience-item-info">
+            <img class="experience-image" src="{% static 'images/kit_info.jpeg' %}" width="300px" height="200px">
+            <div class="experience-title">
+              Karlsruhe Institute for Technology
+            </div>
+            <div class="experience-span">
+              April 2021 - <em>Ongoing</em>
+            </div>
+          </div>
+          <div class="experience-item-content">
+            <h3>M.Sc. Electrical Engineering and Information Science</h3>
+            <p class="experiences-description">
+              I am currently studying for my master's degree in electrical engineering with a specialization in control
+              systems engineering.
+            </p>
+            <div class="experience-links">
+              <a href="http://www.kit.edu/">KIT Homepage</a>
+            </div>
+          </div>
+        </div>
+        <div class="experience-item">
+          <div class="experience-item-info">
+            <img class="experience-image" src="{% static 'images/kit_info.jpeg' %}" width="300px" height="200px">
+            <div class="experience-title">
+              Karlsruhe Institute for Technology
+            </div>
+            <div class="experience-span">
+              October 2016 - March 2021
+            </div>
+          </div>
+          <div class="experience-item-content">
+            <h3>B.Sc. Electrical Engineering and Information Science</h3>
+            <p class="experiences-description">
+              The bachelor of electrical engineering taught me a lot about the fundamentals of electrical engineering.
+              I particularly enjoyed learning about the mathematical theory of signal processing and control systems
+              engineering. Whenever possible I elected computer science subjects to learn about the basics of machine
+              learning and algorithm theory.<br>
+              In my bachelors thesis I conducted computational experiments for the application of a genetic algorithm
+              for the optimization of a heterogeneous and synchronized vehicle routing and scheduling problem.
+            </p>
+            <div class="experience-links">
+              <a href="http://www.kit.edu/">KIT Homepage</a>
+              <a>Bachelor's Thesis</a>
+            </div>
+          </div>
+        </div>
+        <div class="experience-item">
+          <div class="experience-item-info">
+            <img class="experience-image" src="{% static 'images/schiller_info.jpg' %}" width="300px" height="200px">
+            <div class="experience-title">
+              Schiller Highschool
+            </div>
+            <div class="experience-span">
+              September 2009 - June 2016
+            </div>
+          </div>
+          <div class="experience-item-content">
+            <h3>Higher School Certificate (German Abitur)</h3>
+            <p class="experience-description">
+              It was in highschool that I fell in love with technology. It started, when I chose to program a game as a
+              one year school project in 8th grade. Later on, I elected to graduate in physics and computer science in the final term.<br>
+              My personal highlight during school was the opportunity to contribute to the "Schiller in Space" project
+              as the lead of electrical engineering. In this extracurricular project students had the chance to
+              collaborate on building a measurement box. Hanging on a helium balloon, the box is sent to the stratosphere
+              to collect climate data.
+            </p>
+            <div class="experience-links">
+              <a>Schiller homepage</a>
+              <a>Schiller in Space</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="center-container">
+      <h1>Work Experience</h1>
+      <div class="separator"></div>
+
+    </div>
+  </div>
+
+  <div class="abilities">
+    <div class="center-container">
+
+    </div>
+  </div>
+
+  <div class="projects">
+    <div class="center-container">
+
+    </div>
+  </div>
+
+  {% render_bundle 'chunk-common' %}
+  {% render_bundle 'frontpage' %}
 
 {% endblock content %}

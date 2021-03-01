@@ -1,0 +1,153 @@
+/* GENERAL MARKUP */
+
+body {
+  font-size: 0.95em;
+  line-height: 180%;
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+}
+
+p {
+  color: #50555c;
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+}
+
+.bottom-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(0deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 90%);
+}
+
+.frontpage {
+  width: 100%;
+  background-color: lightgray;
+  margin: 0;
+  height: 900px;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.center-container {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: 200px;
+}
+
+.separator{
+  width: 90%;
+  height: 1px;
+  background-color: #878787;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
+.experiences, .projects, .frontpage{
+  background-color: #D5F5D5;
+}
+
+.profile, .abilities {
+  background-color: white;
+}
+
+/* THE INDIVIDUAL SECTIONS */
+
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profile-picture {
+  margin-top: 30px;
+  background-color: white;
+  border-style: solid;
+  border-width: 10px;
+  border-radius: 50%;
+  border-color: #EDD1B5;
+  /* border-color: #FFB938; */
+}
+
+.profile-container h2 {
+  margin-bottom: 30px;
+}
+
+.about-container, .detail-container{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detail-item {
+  margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.experience-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.experience-item h3 {
+  margin-top: 10px;
+}
+
+img.experience-image {
+  margin: 5px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: white;
+  border-radius: 20px;
+}
+
+/*
+img.experience-image:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: " ";
+  background: linear-gradient(66deg, rgba(0,255,96,1) 0%, rgba(157,255,29,1) 100%);
+  width: 300px;
+  height: 300px;
+}
+*/
+
+.experience-item-content {
+  margin-left: 60px;
+}
+
+.experience-item-info>div {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.experience-links {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.experience-links>a {
+  margin-right: 30px;
+}
+
+.experience-title {
+  font-weight: bold;
+}

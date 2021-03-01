@@ -34,17 +34,18 @@ services:
     env_file:
       - ./.envs/.local/.postgres
 
-  docs:
-    image: electronicheart_local_docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./docs:/docs:z
-      - ./config:/app/config:z
-      - ./electronicheart:/app/electronicheart:z
-    ports:
-      - "7000:7000"
+# DONT NEED THE DOCS ANYWAYS
+#  docs:
+#    image: electronicheart_local_docs
+#    container_name: docs
+#    build:
+#      context: .
+#      dockerfile: ./compose/local/docs/Dockerfile
+#    env_file:
+#      - ./.envs/.local/.django
+#    volumes:
+#      - ./docs:/docs:z
+#      - ./config:/app/config:z
+#      - ./electronicheart:/app/electronicheart:z
+#    ports:
+#      - "7000:7000"
