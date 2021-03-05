@@ -56,7 +56,7 @@
     </div>
   </div>
 
-  <div class="experiences">
+  <div class="education">
     <div class="center-container">
       <h1>Education</h1>
       <div class="separator"></div>
@@ -138,22 +138,94 @@
       </div>
     </div>
 
+  <div class="experience">
     <div class="center-container">
       <h1>Work Experience</h1>
       <div class="separator"></div>
-
+      <div class="experience-item">
+          <div class="experience-item-info">
+            <img class="experience-image" src="{% static 'images/ipe.jpg' %}" width="300px" height="200px">
+            <div class="experience-title">
+              Institute for data processing and electronics (IPE)
+            </div>
+            <div class="experience-span">
+              August 2017 - Ongoing
+            </div>
+          </div>
+          <div class="experience-item-content">
+            <h3>Part time - Research assistant</h3>
+            <p class="experience-description">
+              At the IPE I had the great opportunity work on many diverse and interesting projects. Initially, I mainly
+              worked on web development with PHP and Wordpress. Over the years however I was also involved in projects
+              which used Python machine learning for the automatic detection of lightning strikes in photographs and
+              hardware centric C programming to write a custom linux interface for scientific high-speed cameras. At
+              the end I mainly settled for projects involving the design of Python command line applications and web
+              development with the Django backend and VueJS frontend frameworks.
+            </p>
+            <div class="experience-links">
+              <a>IPE homepage</a>
+            </div>
+          </div>
+          </div>
+        </div>
     </div>
-  </div>
 
   <div class="abilities">
     <div class="center-container">
-
+      <h1>Abilities</h1>
+      <div class="separator"></div>
+      <h2>Programming</h2>
+      <div class="ability-container">
+        {% for abilities in programming_abilities %}
+          <div class="ability-list">
+            {% for ability in abilities %}
+              <div class="ability-item">
+                <img class="ability-icon" src="{{ ability.icon_url }}">
+                <div class="ability-name">{{ ability.name }}</div>
+                <div class="ability-rating">
+                  {% for star in ability.rating%}
+                    {% if star %}
+                      <span class="fa fa-star checked"></span>
+                    {% else %}
+                      <span class="fa fa-star unchecked"></span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 
   <div class="projects">
     <div class="center-container">
+      <h1>Projects</h1>
+      <div class="separator"></div>
+      <div class="projects-container">
+        {% for project in projects %}
+          <div class="project-item">
+            <div class="project-name">{{ project.name }}</div>
+            <img class="project-image" src="{{ project.image_url }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 
+  <div class="contact">
+    <div class="center-container">
+      <h1>Contact</h1>
+    <div class="separator"></div>
+    <div class="contact-container">
+      {% for contact in contacts %}
+        <a class="contact-item" href="{{ contact.href }}">
+          <img class="contact-image" src="{{ contact.image_url }}">
+          <div class="contact-content">{{ contact.content }}</div>
+        </a>
+      {% endfor %}
+    </div>
     </div>
   </div>
 
