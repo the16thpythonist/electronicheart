@@ -72,11 +72,14 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "webpack_loader",
+    # For visual editor of blog posts in admin area
+    "django_summernote",
 ]
 
 LOCAL_APPS = [
     "electronicheart.users.apps.UsersConfig",
     "electronicheart.webpack_bundle.apps.WebpackBundleConfig",
+    "blog.apps.BlogAppConfig",
     "fruit.apps.FruitConfig",
     # Your stuff: custom apps go here
 ]
@@ -212,7 +215,9 @@ CSRF_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
-X_FRAME_OPTIONS = "DENY"
+#X_FRAME_OPTIONS = "DENY"
+X_FRAME_OPTIONS = "ALLOW"
+X_FRAME_ORIGIN = "SAMEORIGIN"
 
 # EMAIL
 # ------------------------------------------------------------------------------

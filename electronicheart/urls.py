@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from electronicheart.views import HomepageView
+from .views import HomepageView
 
 app_name = "electronicheart"
 

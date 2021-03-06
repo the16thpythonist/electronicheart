@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div class="entry-container">
+    <div class="title-container">
+      {% block title %}
+        <h1>Default title</h1>
+      {% endblock %}
+    </div>
+    <div></div>
+  </div>
+{% endblock %}

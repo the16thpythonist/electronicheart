@@ -8,6 +8,7 @@ from django.db.models import (SlugField,
                               URLField,
                               ForeignKey)
 from django.utils import timezone
+from electronicheart.users.models import User
 
 
 class Entry(models.Model):
@@ -24,3 +25,11 @@ class Entry(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Tutorial(Entry):
+
+    type = 'tutorial'
+    author = ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='tutorials')
+    # thumbnail = FilerImageField(related_name="tutorial_thumbnail" on_delete=models.CASCADE, null=True)
+

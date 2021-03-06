@@ -1,0 +1,44 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10%;
+  padding: 10px;
+}
+
+.entry.meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: orange;
+}
+
+.entry.fa-user, .entry.fa-clock-o {
+  margin-right: 5px;
+}
+
+h1.entry {
+  font-size: 3em;
+}
+
+h2.entry {
+  font-size: 2em;
+  color: gray;
+}
+
+.separator {
+  width: 75%;
+  height: 1px;
+  background-color: lightgray;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.entry.content {
+  width: 90%;
+  align-self: center;
+  font-size: 1.2em;
+}

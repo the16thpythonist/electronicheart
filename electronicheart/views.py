@@ -13,7 +13,6 @@ class HomepageView(TemplateView):
     template_name = 'pages/home.html'
 
     def get_context_data(self, **kwargs):
-        print("HELLO")
         context = super(HomepageView, self).get_context_data(**kwargs)
 
         context['programming_abilities'] = [

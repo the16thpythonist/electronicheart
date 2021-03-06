@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div class="entry center-container">
+    <div class="entry header">
+      <div class="entry meta">
+        <div class="entry author">
+          <i class="entry fa fa-user"></i>
+          {{ object.author }}
+        </div>
+        <div class="entry publishing-date">
+          <i class="entry fa fa-clock-o"></i>
+          {{ object.publishing_date }}
+        </div>
+      </div>
+      <div class="entry title-container">
+        <h1 class="entry">{{ object.title }}</h1>
+        <h2 class="entry">{{ object.subtitle }}</h2>
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div class="entry content">
+       {{ object.content | safe }}
+    </div>
+  </div>
+{% endblock %}
