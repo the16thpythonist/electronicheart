@@ -4,6 +4,7 @@ body {
   font-size: 0.95em;
   line-height: 180%;
   font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+  overflow-x: hidden;
 }
 
 p {
@@ -23,9 +24,7 @@ p {
 
 .frontpage {
   width: 100%;
-  background-color: lightgray;
   margin: 0;
-  height: 900px;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
@@ -56,10 +55,14 @@ p {
 
 .education, .abilities, .frontpage, .contact {
   background-color: #D5F5D5;
+  position: relative;
+  z-index: 20;
 }
 
 .profile, .experience, .projects {
   background-color: white;
+  position: relative;
+  z-index: 20;
 }
 
 /* THE INDIVIDUAL SECTIONS */
@@ -105,6 +108,11 @@ p {
 
 .experience-item h3 {
   margin-top: 10px;
+}
+
+.experience-item h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 img.experience-image {

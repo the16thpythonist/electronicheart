@@ -20,3 +20,5 @@ django-cors-headers==3.5.0 # https://github.com/adamchainz/django-cors-headers
 django-webpack-loader==0.6.0  # https://github.com/owais/django-webpack-loader
 # Visual editor for blog posts in the backend
 django-summernote==0.8.11.6 # https://github.com/summernote/django-summernote
+# Uploading images and misc files as model fields
+django-filer==2.0.2 # https://github.com/django-cms/django-filer

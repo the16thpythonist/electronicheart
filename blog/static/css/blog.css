@@ -1,44 +1,333 @@
+/* GENERAL STYLE RULES FOR ALL OF THE BLOG */
+
+/* == Sub Navbar
+   All the blog pages add an additional "sub navbar" to the main navbar, which will appear below the main
+   navbar content. This navbar contains a search field for the blog posts and additional blog specific nav items.
+ */
+
+.blog.sub-navbar-container {
+  position: relative;
+  background-color: #D5F5D5;
+  display: flex;
+  flex-direction: column;
+  z-index: -30;
+  opacity: 0.9;
+}
+
+.blog.sub-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* These margins match the margins of the main header -> so they have the same width */
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.blog.navbar-item {
+  /* The main styling is done in the base.css file with the generic .navbar-item class. This
+     just makes the necessary adjustments for the blog sub navbar of the blog specifically
+   */
+  border-color: #D5F5D5;
+  font-size: 0.8em;
+}
+
+.blog.navbar-item:hover {
+  border-color: black;
+  cursor: pointer;
+}
+
+.blog.search-bar-container {
+  flex-grow: 2;
+}
+
+.blog.search-bar {
+  width: 20%;
+}
+
+/* == Main Content container
+   The main content will be displayed in a centered container.
+ */
+
 .center-container {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  align-items: center;
+  width: 55%;
   height: 100%;
   margin-right: auto;
   margin-left: auto;
   margin-top: 10%;
   padding: 10px;
+
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
 }
 
-.entry.meta {
+/* Since the sub navbar enlarges the navbar in the vertical. The main container now needs more margin towards
+   the top to account for this longer navbar.
+ */
+div.content {
+  margin-top: 100px;
+}
+
+/* STYLING FOR THE BLOG LIST VIEW */
+
+.blog.list-title {
+  margin: 0;
+}
+
+.blog.list-separator {
+  content: ' ';
+  width: 80%;
+  height: 1px;
+  background-color: black;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+a.blog.entry-item-container {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  color: orange;
+  width: 100%;
+  margin-bottom: 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
 }
 
-.entry.fa-user, .entry.fa-clock-o {
-  margin-right: 5px;
+a.blog.entry-item-container:hover {
+  cursor: pointer;
+  transform: translateX(10px);
 }
 
-h1.entry {
-  font-size: 3em;
+.blog.entry-item.type {
+  position: absolute;
+  left: 15px;
+  bottom: 20px;
+  color: gray;
+  background-color: white;
+  opacity: 0.8;
+  z-index: 10;
+  border-radius: 2px;
+  padding: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  font-weight: bold;
 }
 
-h2.entry {
-  font-size: 2em;
+img.blog.thumbnail {
+  padding: 10px;
+  width: 250px;
+  height: 250px;
+}
+
+.blog.entry-item.image-container {
+  position: relative;
+}
+
+.blog.entry-item.image-container:before, .blog.entry-item.image-container:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  border-width: 25px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.blog.entry-item.image-container:before {
+  border-top-color: white;
+  border-left-color: white;
+  top: 10px;
+  left: 10px;
+}
+
+.blog.entry-item.image-container:after {
+  border-bottom-color: white;
+  border-right-color: white;
+  bottom: 10px;
+  right: 10px;
+}
+
+div.blog.entry-item.content-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.blog.entry-item h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.6em;
+}
+
+.blog.entry-item h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3em;
   color: gray;
 }
 
-.separator {
-  width: 75%;
-  height: 1px;
-  background-color: lightgray;
-  margin-top: 10px;
-  align-self: center;
+.blog.entry-item.description {
+  flex-grow: 2;
+
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.2em;
 }
 
-.entry.content {
-  width: 90%;
-  align-self: center;
+.blog.entry-item.meta-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  color: #f1c453;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+}
+
+.blog.entry-item>i {
+  margin-right: 5px;
+}
+
+/* STYLING FOR THE DETAIL VIEW */
+
+.blog.separator {
+  content: " ";
+  height: 1px;
+  background-color: black;
+  width: 100%;
+  margin: 0;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.blog.entry-container {
+  margin-top: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 25%;
+  margin-left: 25%;
+  margin-bottom: 100px;
+}
+
+.blog.entry.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 120%;
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+}
+
+.blog.entry.title-container h1 {
+  margin-top: 70px;
+  margin-bottom: 15px;
+}
+
+.blog.entry.title-container h2 {
+  margin: 0;
+  color: gray;
+}
+
+.blog.entry.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+
+  margin-top: 40px;
+  font-family: "Open Sans", sans-serif;
   font-size: 1.2em;
+}
+
+.blog.entry.content-container p>img {
+  display: block;
+  margin-left: -10%;
+  width: 120% !important;
+}
+
+/* about author info */
+
+.blog.entry.author-container {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  font-family: "Open Sans", sans-serif;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+
+}
+
+.blog.entry.author-container:after {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: inline-block;
+  content: "ABOUT THE AUTHOR";
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 0.7em;
+  color: gray;
+}
+
+.blog.entry.author-image-container {
+  margin: 10px;
+}
+
+.blog.entry.author-image {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.blog.entry.author-image-container:before, .blog.entry.author-image-container:after {
+  content: " ";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px;
+  border-color: transparent;
+  z-index: 10;
+}
+
+.blog.entry.author-image-container:before {
+  border-left-color: white;
+  border-top-color: white;
+  left: 10px;
+  top: 10px;
+}
+
+.blog.entry.author-image-container:after {
+  border-right-color: white;
+  border-bottom-color: white;
+  right: 10px;
+  bottom: 10px;
+}
+
+.blog.entry.author-description-container {
+  margin: 20px;
+}
+
+.blog.entry.author-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.blog.entry.author-bio {
+  font-size: 1.1em;
+}
+
+/* single entry comments section */
+
+h3.blog.entry.comments-header {
+  font-size: 1.6em;
+  margin-bottom: 0;
+  margin-top: 30px;
 }

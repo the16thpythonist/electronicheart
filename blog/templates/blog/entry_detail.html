@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'blog_base.html' %}
 {% load static %}
 
 {% block css %}
@@ -6,12 +6,51 @@
 {% endblock %}
 
 {% block content %}
-  <div class="entry-container">
-    <div class="title-container">
-      {% block title %}
-        <h1>Default title</h1>
+  <div class="blog entry-container">
+
+    <div class="blog entry title-container">
+      {% block entry-title %}
+        <h1>{{ object.title }}</h1>
+        <h2>{{ object.subtitle }}</h2>
+        <div class="blog separator"></div>
       {% endblock %}
     </div>
-    <div></div>
+
+    <div class="blog entry content-container">
+      {% block entry-content %}
+        {{ object.content|safe }}
+      {% endblock %}
+    </div>
+
+    <div class="blog entry author-container">
+      {% block entry-author %}
+        <div class="blog entry author-image-container">
+          <img class="blog entry author-image" src="{{ object.author.image.url }}">
+        </div>
+
+        <div class="blog entry author-description-container">
+          <div class="blog entry author-name">
+            {{ object.author.name }}
+          </div>
+          <div class="blog entry author-bio">
+            {{ object.author.bio }}
+          </div>
+        </div>
+      {% endblock %}
+    </div>
+
+    <h3 class="blog entry comments-header">
+      Comments
+    </h3>
+    <div class="blog separator"></div>
+
+    <div class="blog entry comments-container">
+      {% if object.comments %}
+        Comments!
+      {% else %}
+        No comments yet...
+      {% endif %}
+    </div>
+
   </div>
 {% endblock %}

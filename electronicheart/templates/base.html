@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}electronicheart{% endblock title %}</title>
+    <title>{% block title %}Electronic Heart{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Personal website of Jonas Teufel">
     <meta name="author" content="Jonas Teufel">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- project-specific CSS -->
-    <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <!-- Additional CSS from sub-templates -->
 
     {% block css %}
@@ -45,7 +45,7 @@
           <a class="navbar-item" href="">
             About Me
           </a>
-          <a class="navbar-item" href="">
+          <a class="navbar-item" href="{% url 'blog:entry_list' %}">
             The Blog
           </a>
           <a class="navbar-item" href="">
@@ -53,8 +53,17 @@
           </a>
         </div>
       </div>
+
       <div class="navbar-border">
       </div>
+
+      <!-- After the main navbar, there is a custom blog which allows to extend the navbar with additional sub
+       navigation for specific functions of the website. One possibility for example would be a blog specific
+       navigation with the different topics and a search bar. -->
+      {% block post-navbar %}
+
+      {% endblock %}
+
     </div>
 
     <div class="content">

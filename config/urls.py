@@ -21,7 +21,8 @@ urlpatterns = [
     path("users/", include("electronicheart.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("summernote/", include("django_summernote.urls"))
+    path("summernote/", include("django_summernote.urls")),
+    path("filer/", include("filer.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS

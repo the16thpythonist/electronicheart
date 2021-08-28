@@ -22,6 +22,6 @@ Vue.config.productionTip = false
 // Here we create a new Vue instance. This will then do the magic. It will hook into the elements specified with the
 // ID #frontend within the html and then replace (?) it with the specified components.
 new Vue({
-    el: "#app",
+    el: "#frontpage",
     components: {Frontpage}
 })

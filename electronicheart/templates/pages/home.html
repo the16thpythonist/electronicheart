@@ -8,9 +8,7 @@
 
 {% block content %}
 
-  <div class="bottom-overlay"></div>
-
-  <div class="frontpage">
+  <div class="frontpage" id="frontpage">
     <frontpage>loading...</frontpage>
   </div>
 
@@ -21,184 +19,133 @@
       <div class="profile-container">
         <div class="about-container">
           <h2>About Me</h2>
-          <p class="about">
-            I am a student of electrical engineering at the Karlsruhe Institute of Technology with
-            a focus on control systems engineering. Besides university, I also do part time programming.
-            My main area of expertise is the Python programming language. With Python, I've dipped my toes
-            into all sorts of domains such as command line applications, GUIs, machine learning, optimization
-            algorithms, game and web development. Nowadays I find myself mainly tinkering with the web, but my
-            <em>heart</em> still aches for all things <em>electronic</em>.
-          </p>
+          <p class="about">{{ profile.about_me }}</p>
         </div>
         <div class="profile-picture-container">
-          <img class="profile-picture" src="{% static 'images/profile_picture.jpg' %}" height="300px" width="300px">
+          <img class="profile-picture" src="{{ profile.image_url }}" height="300px" width="300px">
         </div>
         <div class="detail-container">
           <h2>Details</h2>
           <div class="detail-item">
             <strong>Name:</strong>
-            <p>Jonas Teufel</p>
+            <p>{{ profile.name }}</p>
           </div>
           <div class="detail-item">
             <strong>Age:</strong>
-            <p>22 years</p>
+            <p>{{ profile.age }}</p>
           </div>
           <div class="detail-item">
             <strong>Location:</strong>
-            <p>76131 Karlsruhe, Germany</p>
-          </div>
-          <div class="detail-item">
-            <strong>LinkedIn:</strong>
-            <p>Some link</p>
+            <p>{{ profile.location }}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- SECTION LISTS EDUCATION MILESTONES -->
   <div class="education">
     <div class="center-container">
       <h1>Education</h1>
       <div class="separator"></div>
       <div class="experiences-container">
-        <div class="experience-item">
-          <div class="experience-item-info">
-            <img class="experience-image" src="{% static 'images/kit_info.jpeg' %}" width="300px" height="200px">
-            <div class="experience-title">
-              Karlsruhe Institute for Technology
+        {% for edu in education reversed %}
+          <div class="experience-item">
+
+            <div class="experience-item-info">
+              <img class="experience-image" src="{{ edu.image_url }}" width="300px" height="200px">
+              <div class="experience-title">{{ edu.image_title }}</div>
+              <div class="experience-span">{{ edu.from }} - {{ edu.to }}</div>
             </div>
-            <div class="experience-span">
-              April 2021 - <em>Ongoing</em>
+
+            <div class="experience-item-content">
+              <h3>{{ edu.title }}</h3>
+              <p class="experience-description">{{ edu.description }}</p>
+              <div class="experience-links">
+                {% for link in edu.links %}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
+              </div>
             </div>
+
           </div>
-          <div class="experience-item-content">
-            <h3>M.Sc. Electrical Engineering and Information Science</h3>
-            <p class="experiences-description">
-              I am currently studying for my master's degree in electrical engineering with a specialization in control
-              systems engineering.
-            </p>
-            <div class="experience-links">
-              <a href="http://www.kit.edu/">KIT Homepage</a>
-            </div>
-          </div>
-        </div>
-        <div class="experience-item">
-          <div class="experience-item-info">
-            <img class="experience-image" src="{% static 'images/kit_info.jpeg' %}" width="300px" height="200px">
-            <div class="experience-title">
-              Karlsruhe Institute for Technology
-            </div>
-            <div class="experience-span">
-              October 2016 - March 2021
-            </div>
-          </div>
-          <div class="experience-item-content">
-            <h3>B.Sc. Electrical Engineering and Information Science</h3>
-            <p class="experiences-description">
-              The bachelor of electrical engineering taught me a lot about the fundamentals of electrical engineering.
-              I particularly enjoyed learning about the mathematical theory of signal processing and control systems
-              engineering. Whenever possible I elected computer science subjects to learn about the basics of machine
-              learning and algorithm theory.<br>
-              In my bachelors thesis I conducted computational experiments for the application of a genetic algorithm
-              for the optimization of a heterogeneous and synchronized vehicle routing and scheduling problem.
-            </p>
-            <div class="experience-links">
-              <a href="http://www.kit.edu/">KIT Homepage</a>
-              <a>Bachelor's Thesis</a>
-            </div>
-          </div>
-        </div>
-        <div class="experience-item">
-          <div class="experience-item-info">
-            <img class="experience-image" src="{% static 'images/schiller_info.jpg' %}" width="300px" height="200px">
-            <div class="experience-title">
-              Schiller Highschool
-            </div>
-            <div class="experience-span">
-              September 2009 - June 2016
-            </div>
-          </div>
-          <div class="experience-item-content">
-            <h3>Higher School Certificate (German Abitur)</h3>
-            <p class="experience-description">
-              It was in highschool that I fell in love with technology. It started, when I chose to program a game as a
-              one year school project in 8th grade. Later on, I elected to graduate in physics and computer science in the final term.<br>
-              My personal highlight during school was the opportunity to contribute to the "Schiller in Space" project
-              as the lead of electrical engineering. In this extracurricular project students had the chance to
-              collaborate on building a measurement box. Hanging on a helium balloon, the box is sent to the stratosphere
-              to collect climate data.
-            </p>
-            <div class="experience-links">
-              <a>Schiller homepage</a>
-              <a>Schiller in Space</a>
-            </div>
-          </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
 
+  </div>
+
+  <!-- SECTION LISTS WORK EXPERIENCES -->
   <div class="experience">
     <div class="center-container">
       <h1>Work Experience</h1>
       <div class="separator"></div>
-      <div class="experience-item">
-          <div class="experience-item-info">
-            <img class="experience-image" src="{% static 'images/ipe.jpg' %}" width="300px" height="200px">
-            <div class="experience-title">
-              Institute for data processing and electronics (IPE)
-            </div>
-            <div class="experience-span">
-              August 2017 - Ongoing
-            </div>
-          </div>
-          <div class="experience-item-content">
-            <h3>Part time - Research assistant</h3>
-            <p class="experience-description">
-              At the IPE I had the great opportunity work on many diverse and interesting projects. Initially, I mainly
-              worked on web development with PHP and Wordpress. Over the years however I was also involved in projects
-              which used Python machine learning for the automatic detection of lightning strikes in photographs and
-              hardware centric C programming to write a custom linux interface for scientific high-speed cameras. At
-              the end I mainly settled for projects involving the design of Python command line applications and web
-              development with the Django backend and VueJS frontend frameworks.
-            </p>
-            <div class="experience-links">
-              <a>IPE homepage</a>
-            </div>
-          </div>
-          </div>
-        </div>
-    </div>
+      <div class="experiences-container">
+        {% for exp in experience %}
+          <div class="experience-item">
 
-  <div class="abilities">
-    <div class="center-container">
-      <h1>Abilities</h1>
-      <div class="separator"></div>
-      <h2>Programming</h2>
-      <div class="ability-container">
-        {% for abilities in programming_abilities %}
-          <div class="ability-list">
-            {% for ability in abilities %}
-              <div class="ability-item">
-                <img class="ability-icon" src="{{ ability.icon_url }}">
-                <div class="ability-name">{{ ability.name }}</div>
-                <div class="ability-rating">
-                  {% for star in ability.rating%}
-                    {% if star %}
-                      <span class="fa fa-star checked"></span>
-                    {% else %}
-                      <span class="fa fa-star unchecked"></span>
-                    {% endif %}
-                  {% endfor %}
-                </div>
+            <div class="experience-item-info">
+              <img class="experience-image" src="{{ exp.image_url }}" width="300px" height="200px">
+              <div class="experience-title">{{ exp.image_title }}</div>
+              <div class="experience-span">{{ exp.from }} - {{ exp.to }}</div>
+            </div>
+
+            <div class="experience-item-content">
+              <h3>{{ exp.title }}</h3>
+              <p class="experience-description">{{ exp.description }}</p>
+              <div class="experience-links">
+                {% for link in exp.links %}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
               </div>
-            {% endfor %}
+            </div>
+
           </div>
         {% endfor %}
       </div>
     </div>
   </div>
 
+  <!-- SECTION LISTS ABILITIES WITH A STAR RATING SYSTEM -->
+  <div class="abilities">
+    <div class="center-container">
+      <!-- The general section about abilities. This may consist of multiple sub sections which group the abilities
+      roughly by topic -->
+      <h1>Abilities</h1>
+      <div class="separator"></div>
+
+      <!-- "abilities" is a dict, where the key is the title string for the section and the item is a list of two
+      lists. The two lists represent the split between the left and the right display section. These lists then contain
+      the dicts which actually describe the individual ability items -->
+      {% for title, ability_lists in abilities.items %}
+        <h2>{{ title }}</h2>
+        <div class="ability-container">
+          {% for ability_list in ability_lists %}
+            <div class="ability-list">
+              {% for ability in ability_list %}
+                <div class="ability-item">
+                  <img class="ability-icon" src="{{ ability.icon_url }}">
+                  <div class="ability-name">{{ ability.name }}</div>
+                  <div class="ability-rating">
+                    {% for star in ability.rating %}
+                      {% if star %}
+                        <span class="fa fa-star checked"></span>
+                      {% else %}
+                        <span class="fa fa-star unchecked"></span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <!-- SECTION LISTS PROJECT BLOG POSTS WORTH HIGHLIGHTING -->
   <div class="projects">
     <div class="center-container">
       <h1>Projects</h1>
@@ -214,18 +161,19 @@
     </div>
   </div>
 
+  <!-- CONTACT OPTIONS, SOCIAL ACCOUNTS? -->
   <div class="contact">
     <div class="center-container">
       <h1>Contact</h1>
-    <div class="separator"></div>
-    <div class="contact-container">
-      {% for contact in contacts %}
-        <a class="contact-item" href="{{ contact.href }}">
-          <img class="contact-image" src="{{ contact.image_url }}">
-          <div class="contact-content">{{ contact.content }}</div>
-        </a>
-      {% endfor %}
-    </div>
+      <div class="separator"></div>
+      <div class="contact-container">
+        {% for contact in contacts %}
+          <a class="contact-item" href="{{ contact.href }}">
+            <img class="contact-image" src="{{ contact.image_url }}">
+            <div class="contact-content">{{ contact.content }}</div>
+          </a>
+        {% endfor %}
+      </div>
     </div>
   </div>
 

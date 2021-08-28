@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static thumbnail%}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block post-navbar %}
+  <div class="blog sub-navbar-container">
+    <div class="blog sub-navbar">
+
+      <div class="blog search-bar-container">
+        <input class="blog search-bar" type="text" placeholder="Search...">
+      </div>
+
+      <div class="blog nav-items">
+        <a class="blog navbar-item">Projects</a>
+        <a class="blog navbar-item">Tutorials</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

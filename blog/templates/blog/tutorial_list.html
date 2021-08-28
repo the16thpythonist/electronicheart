@@ -1,0 +1,44 @@
+{% extends 'blog_base.html' %}
+{% load static thumbnail%}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="center-container">
+    {% for object in objects %}
+      <div class="entry-item container">
+        <div class="entry-item image-container">
+          <div class="entry-item type">
+            <span class="entry-item fa fa-circle-o"></span>
+            {{ object.type | upper }}
+          </div>
+          <img class="entry-item thumbnail" src="{{ object.thumbnail.url }}">
+        </div>
+        <div class="entry-item content-container">
+          <div class="entry-item meta-container">
+            <div class="entry-item author">
+              <span class="entry-item fa fa-user"></span>
+              {{ object.author }}
+            </div>
+            <div class="entry-item publising-date">
+              <span class="entry-item fa fa-clock-o"></span>
+              {{ object.publishing_date }}
+            </div>
+          </div>
+          <a class="entry-item title-container" href="{% url 'blog:tutorial_detail' slug=object.slug %}">
+            <h1 class="entry-item">{{ object.title }}</h1>
+          </a>
+          <div class="entry-item description">
+            {{ object.description }}
+            <a class="entry-item read-more" href="{% url 'blog:tutorial_detail' slug=object.slug %}">
+              <span class="entry-item fa fa-arrow-right"></span>
+              Read more
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

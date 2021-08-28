@@ -74,6 +74,10 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     # For visual editor of blog posts in admin area
     "django_summernote",
+    # For uploading files and making them model fields
+    "easy_thumbnails",
+    "filer",
+    "mptt",
 ]
 
 LOCAL_APPS = [
@@ -305,3 +309,7 @@ WEBPACK_LOADER = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# This is needed for Filer to support retina display deviced
+THUMBNAIL_HIGH_RESOLUTION = True
+# Configures the URL under which file saves it's images
+# FILER_CANONICAL_URL = 'sharing/'
