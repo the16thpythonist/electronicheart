@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import get_most_recent_entries
 from .models import Entry, Tutorial, Project
-
+from .models import Comment
+from .forms import CommentForm
 
 # == GENERAL POST VIEWS
 
@@ -47,6 +48,30 @@ class ProjectDetailView(View):
     def get(self, request, slug):
         project = get_object_or_404(Project, slug=slug)
         context = {
-            'object': project
+            'object': project,
+            'form': CommentForm()
+        }
+        return render(request, 'blog/project_detail.html', context)
+
+    def post(self, request, slug):
+        project = get_object_or_404(Project, slug=slug)
+        form = CommentForm(request.POST)
+
+        # Adding a corresponding comment to the entry in case the form is correct
+        if form.is_valid():
+            comment = Comment(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                content=form.cleaned_data['content'],
+                # I could do this inside the form actually if I dynamically add a new entry "active" to the
+                # cleaned_data within the clean_content method without raising a validation error
+                active=True,
+                entry=project
+            )
+            comment.save()
+
+        context = {
+            'object': project,
+            'form': CommentForm()
         }
         return render(request, 'blog/project_detail.html', context)

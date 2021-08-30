@@ -54,6 +54,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
     "django.contrib.auth",
+    # https://docs.djangoproject.com/es/2.1/ref/contrib/contenttypes/
+    # This is a really nifty app. On default a foreign key relation can only be towards a *specific* model, which means
+    # that normally you could not use a foreign key on a abstract base model "Post" for example. But this app enables
+    # this behaviour of generic relations between models.
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.sites",

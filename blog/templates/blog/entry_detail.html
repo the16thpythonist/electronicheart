@@ -45,12 +45,33 @@
     <div class="blog separator"></div>
 
     <div class="blog entry comments-container">
-      {% if object.comments %}
-        Comments!
+      {% if object.comments.all|length > 0 %}
+        {% for comment in object.comments.all %}
+          <div class="blog entry comment">
+            <div>
+              <img class="blog entry comment-image">
+            </div>
+            <div class="blog entry comment-main">
+              <div class="blog entry comment-name">
+                {{ comment.name }}
+              </div>
+              <div class="blog entry comment-content">
+                {{ comment.content }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
       {% else %}
         No comments yet...
       {% endif %}
     </div>
+
+    <form class="blog entry comment-form" action="" method="post">
+      <h4>Post a Comment!</h4>
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+      {% csrf_token %}
+    </form>
 
   </div>
 {% endblock %}
