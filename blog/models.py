@@ -14,8 +14,10 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.templatetags.static import static
 
-from filer.fields.image import FilerImageField
+from filer.fields.image import FilerImageField, FilerFileField
+from bs4 import BeautifulSoup
 
 from electronicheart.users.models import User
 
@@ -33,8 +35,7 @@ class Comment(models.Model):
     This model represents a comment which can be added to any post by an anonymous visitor
     """
     name = CharField(max_length=250)
-    # TODO: Remove the default!
-    email = models.EmailField(default="max.mustermann@gmail.com")
+    email = models.EmailField()
     content = TextField(max_length=2000, blank=True)
     publishing_date = DateTimeField(default=timezone.now)
 
@@ -69,6 +70,13 @@ class Comment(models.Model):
             self.hash_id = self.generate_hash_id()
 
         return super(Comment, self).save(*args, **kwargs)
+
+    def get_image_url(self):
+        if self.author:
+            return self.author.image.url
+
+        image_file = f'comment_images/{self.hash_id}.jpg'
+        return static(image_file)
 
     def generate_hash_id(self) -> str:
         hash_base = f'{self.name} - {self.email.lower()}'
@@ -142,10 +150,43 @@ class Project(Entry):
     thumbnail = FilerImageField(related_name='project_thumbnail', on_delete=models.CASCADE, null=True)
 
 
+class JupyterNotebook(Entry):
+
+    type = 'jupyter'
+    author = ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='jupyter_notebooks')
+    thumbnail = FilerImageField(related_name="jupyter_thumbnail", on_delete=models.CASCADE, null=True)
+
+    # TODO: In the future I might be able to make it such that the user only needs to provide the ipynb file and the
+    #       the conversion is done automatically.
+    # TODO: Maybe there is a way to check if the files have the correct file extensions and such?
+    # So when creating a new "jupyter" post, the user needs to provide two files: The actual juypter notebook file
+    # (this will only be necessary for letting the user download the file to try out themselves) and the html file
+    # which was exported from the notebook. The idea is that the html file is parsed and the relevant html parts are
+    # then rendered in the django post template.
+    jupyter_file = FilerFileField(on_delete=models.CASCADE, related_name='jupyter_file')
+    html_file = FilerFileField(on_delete=models.CASCADE, related_name='html_file')
+
+    # These two fields should contain the html code which actually represents the jupyter notebook. These should NOT
+    # be manually settable, they are automatically derived from the html file.
+    head_html = TextField(null=True, blank=True)
+    content_html = TextField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.html_file:
+            with open(self.html_file.path, mode='r') as file:
+                html_string = file.read()
+
+            soup = BeautifulSoup(html_string, 'html.parser')
+            self.head_html = str(soup.head)
+            self.content_html = str(soup.find(id='notebook'))
+
+        return super(JupyterNotebook, self).save(*args, **kwargs)
+
+
 # == UTILITY FUNCTIONS
 
 def get_most_recent_entries(n: int,
-                            entry_subclasses: List[type] = [Tutorial, Project]):
+                            entry_subclasses: List[type] = [Tutorial, Project, JupyterNotebook]):
 
     # TODO: Right now this is super dumb, have to change this
     entries = []

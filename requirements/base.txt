@@ -5,6 +5,10 @@ argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 whitenoise==5.2.0  # https://github.com/evansd/whitenoise
 redis==3.5.3  # https://github.com/andymccurdy/redis-py
 hiredis==1.1.0  # https://github.com/redis/hiredis-py
+# beautifulsoup is actually a html parser. We need this for the special functionality of importing jupyter notebooks
+# as blog posts. Jupyter files are first exported into html and then imported in the django blog. There the html is
+# parsed and the relevant parts are stitched into the post template.
+beautifulsoup4==4.8.2 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
 
 # Django
 # ------------------------------------------------------------------------------

@@ -5,7 +5,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Tutorial, Project
+from .models import Tutorial, Project, JupyterNotebook
 from .models import Comment
 
 # Useful resources:
@@ -73,6 +73,20 @@ class ProjectAdmin(SummernoteModelAdmin):
     form = ProjectAdminForm
 
 
+class JupyterNotebookAdmin(ModelAdmin):
+
+    fields = [
+        'title',
+        'subtitle',
+        'thumbnail',
+        'jupyter_file',
+        'html_file',
+        'author'
+    ]
+
+    list_display = ('title', 'subtitle', 'publishing_date')
+
+
 class CommentAdmin(ModelAdmin):
 
     # One thing to note here is that this list does not contain the "entry" field. This is because this is a generic
@@ -84,6 +98,7 @@ class CommentAdmin(ModelAdmin):
         'name',
         'email',
         'hash_id',
+        'author',
         'image',
         'content',
         'publishing_date',
@@ -98,7 +113,8 @@ class CommentAdmin(ModelAdmin):
     list_display = ('name', 'publishing_date', 'get_shortened_content')
 
 
-
 admin.site.register(Tutorial, TutorialAdmin)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(JupyterNotebook, JupyterNotebookAdmin)
+
 admin.site.register(Comment, CommentAdmin)

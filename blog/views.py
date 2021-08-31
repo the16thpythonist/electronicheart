@@ -2,7 +2,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 
 from .models import get_most_recent_entries
-from .models import Entry, Tutorial, Project
+from .models import Entry, Tutorial, Project, JupyterNotebook
 from .models import Comment
 from .forms import CommentForm
 
@@ -75,3 +75,13 @@ class ProjectDetailView(View):
             'form': CommentForm()
         }
         return render(request, 'blog/project_detail.html', context)
+
+
+class JupyterNotebookDetailView(View):
+
+    def get(self, request, slug):
+        obj = get_object_or_404(JupyterNotebook, slug=slug)
+        context = {
+            'object': obj
+        }
+        return render(request, 'blog/jupyter_detail.html', context)

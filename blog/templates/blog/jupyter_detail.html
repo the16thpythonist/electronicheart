@@ -1,0 +1,10 @@
+{% extends 'blog/entry_detail.html' %}
+{% load static %}
+
+{% block additional-head %}
+  {{ object.head_html|safe }}
+{% endblock %}
+
+{% block entry-content %}
+  {{ object.content_html|safe }}
+{% endblock %}
