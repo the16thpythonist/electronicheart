@@ -43,7 +43,7 @@ class Comment(models.Model):
     # chooses) and the entered email address.
     # In the first step, the author field can only be manipulated from the admin backend which means that only
     # registered admins could change this.
-    hash_id = models.BigIntegerField(null=True, blank=True)
+    hash_id = models.CharField(max_length=3, null=True, blank=True)
     author = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     # https://docs.djangoproject.com/en/3.2/ref/contrib/contenttypes/x
@@ -70,9 +70,11 @@ class Comment(models.Model):
 
         return super(Comment, self).save(*args, **kwargs)
 
-    def generate_hash_id(self) -> int:
-        hash_base = f'{self.name} - {self.email}'
-        return hash(hash_base)
+    def generate_hash_id(self) -> str:
+        hash_base = f'{self.name} - {self.email.lower()}'
+        hash_string = str(hash(hash_base))
+        hash_id = hash_string[-3:]
+        return hash_id
 
     def get_shortened_content(self, length=30) -> str:
         """
