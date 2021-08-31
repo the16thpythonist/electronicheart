@@ -14,8 +14,9 @@
       </div>
 
       <div class="blog nav-items">
-        <a class="blog navbar-item">Projects</a>
-        <a class="blog navbar-item">Tutorials</a>
+        {% for key, data in blog_nav.items %}
+          <a class="blog navbar-item {% if data.active %}active{% endif %}" href="{{ data.url }}">{{ data.label }}</a>
+        {% endfor %}
       </div>
 
     </div>

@@ -1,8 +1,7 @@
 from django.urls import path
 
-from .views import EntryListView
-from .views import TutorialDetailView, TutorialListView, JupyterNotebookDetailView
-from .views import ProjectDetailView
+from .views import TutorialDetailView, ProjectDetailView, JupyterNotebookDetailView
+from .views import EntryListView, TutorialListView, ProjectListView, JupyterNotebookListView
 
 app_name = "blog"
 
@@ -10,7 +9,15 @@ urlpatterns = [
     path('', view=EntryListView.as_view(), name='entry_list'),
     # OWN URLS
     path('tutorials/', view=TutorialListView.as_view(), name='tutorial_list'),
-    path('tutorials/<slug:slug>/', view=TutorialDetailView.as_view(), name='tutorial_detail'),
-    path('projects/<slug:slug>/', view=ProjectDetailView.as_view(), name='project_detail'),
-    path('jupyter/<slug:slug>/', view=JupyterNotebookDetailView.as_view(), name='jupyter_detail')
+    path('tutorials/<slug:slug>/',
+         view=TutorialDetailView.as_view(),
+         name=TutorialDetailView.model.detail_view_name),
+    path('projects/', view=ProjectListView.as_view(), name='project_list'),
+    path('projects/<slug:slug>/',
+         view=ProjectDetailView.as_view(),
+         name=ProjectDetailView.model.detail_view_name),
+    path('jupyter/', view=JupyterNotebookListView.as_view(), name='jupyter_list'),
+    path('jupyter/<slug:slug>/',
+         view=JupyterNotebookDetailView.as_view(),
+         name=JupyterNotebookDetailView.model.detail_view_name)
 ]

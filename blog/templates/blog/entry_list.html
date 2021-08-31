@@ -5,27 +5,18 @@
   <div class="center-container">
 
     <h1 class="blog list-title">
-      Recent Posts
+      {{ title }}
     </h1>
     <div class="blog list-separator"></div>
 
-    <div class="entries">
+    <div class="blog entries">
       {% for object in objects %}
-      {% if object.type == 'tutorial' %}
-      <a class="blog entry-item-container" href="{% url 'blog:tutorial_detail' slug=object.slug %}">
-      {% elif object.type == 'project' %}
-      <a class="blog entry-item-container" href="{% url 'blog:project_detail' slug=object.slug %}">
-      {% elif object.type == 'jupyter' %}
-      <a class="blog entry-item-container" href="{% url 'blog:jupyter_detail' slug=object.slug %}">
-      {% endif %}
+      <!-- Depending on the IDE, the following line will probably show a template syntax error, but in reality it is
+           works. The code assembles the detail name dynamically for an unknown sub type of the entry model type -->
+      <a class="blog entry-item-container" href="{% url "blog:"|add:object.detail_view_name slug=object.slug %}">
 
         <div class="blog entry-item type">
-          {% if object.type == 'tutorial' %}
-            <i class="fa fa-graduation-cap"></i>
-          {% elif object.type == 'project'  %}
-            <i class="fa fa-bolt"></i>
-          {% endif %}
-
+          {{ object.fa_icon|safe }}
           {{ object.type|upper }}
         </div>
 

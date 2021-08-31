@@ -12,6 +12,8 @@ from django.db.models import (SlugField,
                               BooleanField)
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.decorators import classproperty
+from django.urls import reverse_lazy
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.templatetags.static import static
@@ -20,6 +22,7 @@ from filer.fields.image import FilerImageField, FilerFileField
 from bs4 import BeautifulSoup
 
 from electronicheart.users.models import User
+from .apps import BlogAppConfig
 
 
 # == ACTUAL MODEL CLASSES
@@ -106,6 +109,19 @@ class Comment(models.Model):
 
 class Entry(models.Model):
 
+    type = 'entry'
+    """
+    :cvar str type: This class variable will have to be overwritten by the specific implementations of the abstract
+        base model! It is supposed to be a simple unique identifier string for each individual entry type.
+    """
+
+    fa_icon = '<i class="fa fa-circle"></i>'
+    """
+    :cvar str fa_icon: This class variable will have to be overwritten by the specific implementation of the abstract
+        base model! It is a html string, which defines the font awesome "i" icon element that is to be used to
+        represent that certain type of entry.
+    """
+
     title = CharField(max_length=250)
     subtitle = CharField(max_length=250, default='', blank=True)
     description = CharField(max_length=200, default='', blank=True)
@@ -135,10 +151,38 @@ class Entry(models.Model):
 
         return entries
 
+    @classproperty
+    def detail_view_name(cls):
+        return f'{cls.type}_detail'
+
+    # TODO: Replace this with just having the "view_name", that would seem cleaner and not so hacky.
+    @property
+    def url(self) -> str:
+        """
+        Returns the absolute URL of the detail view of the entry instance.
+
+        :return:
+        """
+        # This is a bit hacky (because it technically stretches the limits of SOC a bit) but very convenient!
+        # Here is the thing: This is an abstract base model which will be the base for multiple specific
+        # implementations, but we want a common list view for those and a list view would need knowledge of the urls
+        # of the detail pages to link to those correctly. Thus we need a generalized method for getting those aka
+        # we cannot do the {% url "..." %} thing because for that we need to provide a *specific* model type, which we
+        # generally do not know at that point since it could be any specific implementation. Sooo it would be better if
+        # the url information for the detail page would be attached to every individual element right away <- this
+        # property.
+        # Now this only works because of an implicit assumption we make: In the "url.py" module we set the name of
+        # the according detail view for a model to the "type" property of the corresponding model class. If we adhere
+        # to this convention, we can make use of it here and already assemble all the information to let django reverse
+        # the url for a specific Entry instance...
+        view_name = f'{BlogAppConfig.name}:{self.type}'
+        return reverse_lazy(view_name, kwargs={'slug': self.slug})
+
 
 class Tutorial(Entry):
 
     type = 'tutorial'
+    fa_icon = '<i class="fa fa-graduation-cap"></i>'
     author = ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='tutorials')
     thumbnail = FilerImageField(related_name="tutorial_thumbnail", on_delete=models.CASCADE, null=True)
 
@@ -146,6 +190,7 @@ class Tutorial(Entry):
 class Project(Entry):
 
     type = 'project'
+    fa_icon = '<i class="fa fa-bolt"></i>'
     author = ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='projects')
     thumbnail = FilerImageField(related_name='project_thumbnail', on_delete=models.CASCADE, null=True)
 

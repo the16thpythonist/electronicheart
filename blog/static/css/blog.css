@@ -33,6 +33,10 @@
   font-size: 0.8em;
 }
 
+.blog.navbar-item.active {
+  border-color: #f1c453;
+}
+
 .blog.navbar-item:hover {
   border-color: black;
   cursor: pointer;
@@ -84,6 +88,13 @@ div.content {
   background-color: black;
   margin-top: 15px;
   margin-bottom: 30px;
+}
+
+.blog.entries {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 a.blog.entry-item-container {
