@@ -45,15 +45,15 @@
           <img width="50px" height="50px" src="{% static 'images/logo.png' %}">
         </a>
         <div class="navbar-secondary">
-          <a class="navbar-item" href="">
-            About Me
-          </a>
-          <a class="navbar-item" href="{% url 'blog:entry_list' %}">
-            The Blog
-          </a>
-          <a class="navbar-item" href="">
-            Courses
-          </a>
+          {% if nav %}
+            {% for name, data in nav.items %}
+              <a class="navbar-item {% if data.active %}active{% endif %}" href="{{ data.url }}">{{ data.label }}</a>
+            {% endfor %}
+          {% else %}
+            <a class="navbar-item" href="">
+              Home
+            </a>
+          {% endif %}
         </div>
       </div>
 
@@ -75,6 +75,17 @@
       {% endblock content %}
     </div>
 
+
+    <div class="footer-container">
+      <div class="footer">
+        <div>
+          &copy; 2021 Jonas Teufel
+        </div>
+        <div>
+
+        </div>
+      </div>
+    </div>
 
     <div class="container">
 
@@ -98,15 +109,17 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-      <!-- Your stuff: Third-party javascript libraries go here -->
-
-
       <!-- place project specific Javascript in this file -->
 
       <script src="{% static 'js/project.js' %}"></script>
 
-
     {% endblock javascript %}
+
+    <!-- Your stuff: Third-party javascript libraries go here -->
+    {% block additional-javascript %}
+
+    {% endblock %}
+
   </body>
 </html>
 

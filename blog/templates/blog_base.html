@@ -3,6 +3,11 @@
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+  <link rel="stylesheet" href="{% static 'css/code_snippet.css' %}">
+{% endblock %}
+
+{% block additional-javascript %}
+  <script src="{% static 'js/code_snippet.js' %}"></script>
 {% endblock %}
 
 {% block post-navbar %}
@@ -22,3 +27,4 @@
     </div>
   </div>
 {% endblock %}
+

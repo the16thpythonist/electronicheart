@@ -156,7 +156,7 @@ class Entry(models.Model):
 
     @property
     def comment_count(self):
-        return len(self.comments)
+        return len(self.comments.all())
 
     # TODO: Replace this with just having the "view_name", that would seem cleaner and not so hacky.
     @property

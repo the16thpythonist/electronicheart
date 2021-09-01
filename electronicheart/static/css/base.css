@@ -1,6 +1,12 @@
 /* GENERAL */
 
+html {
+  min-height: 100%;
+}
+
 body {
+  /* https://stackoverflow.com/questions/17555682/height-100-or-min-height-100-for-html-and-body-elements */
+  height: 100vh;
   margin: 0;
   overflow-y: scroll;
   font-size: 16px !important;
@@ -40,6 +46,8 @@ a:hover {text-decoration: none; color: black; }
 }
 
 a.navbar-title {
+  line-height: normal;
+  box-sizing: content-box;
   color: black;
   text-decoration: none;
 }
@@ -65,11 +73,15 @@ div.navbar:before, div.navbar:after {
 }
 
 div.navbar-primary {
+  line-height: normal;
+  box-sizing: content-box;
   margin: 10px 0 10px 10%;
   font-size: 1.2em;
 }
 
 div.navbar-secondary {
+  line-height: normal;
+  box-sizing: content-box;
   margin-right: 10%;
   display: flex;
   flex-direction: row;
@@ -77,6 +89,7 @@ div.navbar-secondary {
 }
 
 .navbar-item {
+  box-sizing: content-box;
   margin: 0 20px 0 20px;
   border-color: white;
   border-style: none;
@@ -84,6 +97,10 @@ div.navbar-secondary {
   border-width: 2px;
   color: #4d4d4d;
   text-decoration: none;
+}
+
+.navbar-item.active {
+  border-bottom-color: #f1c453;
 }
 
 .navbar-item:hover {
@@ -143,4 +160,33 @@ div.navbar-secondary {
 
 .content {
   margin-top: 80px;
+  min-height: 100%;
+}
+
+/* FOOTER */
+
+.footer-container {
+  background-color: lightgray;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  min-height: 100px;
+  border-style: none;
+  border-width: 5px;
+  border-color: gray;
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+}
+
+.footer {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.footer>div {
+  flex-grow: 2;
 }

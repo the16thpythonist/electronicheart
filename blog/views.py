@@ -10,11 +10,12 @@ from .models import get_most_recent_entries
 from .models import Entry, Tutorial, Project, JupyterNotebook
 from .models import Comment
 from .forms import CommentForm
+from electronicheart.views import NavView
 
 # == GENERAL POST VIEWS
 
 
-class BlogView(View):
+class BlogView(NavView):
 
     BLOG_NAV_DEFAULT = {
         'tutorial': {
@@ -39,6 +40,13 @@ class BlogView(View):
 
         super(BlogView, self).__init__(*args, **kwargs)
 
+    def get_context(self):
+        self.nav['blog']['active'] = True
+        return {
+            'nav': self.nav,
+            'blog_nav': self.blog_nav,
+        }
+
 
 class EntryDetailView(BlogView):
 
@@ -47,11 +55,9 @@ class EntryDetailView(BlogView):
 
     def get(self, request, slug):
         obj = get_object_or_404(self.model, slug=slug)
-        context = {
-            'object': obj,
-            'blog_nav': self.blog_nav,
-            'comment_form': CommentForm()
-        }
+        context = self.get_context()
+        context['object'] = obj
+        context['comment_form'] = CommentForm()
 
         return render(request, self.template, context)
 
@@ -72,11 +78,10 @@ class EntryDetailView(BlogView):
             )
             comment.save()
 
-        context = {
-            'object': obj,
-            'blog_nav': self.blog_nav,
-            'comment_form': CommentForm()
-        }
+        context = self.get_context()
+        context['object'] = obj
+        context['comment_form'] = CommentForm()
+
         return render(request, self.template, context)
 
 
@@ -106,11 +111,9 @@ class EntryListView(BlogView):
     template = 'blog/entry_list.html'
 
     def get(self, request):
-        context = {
-            'objects': [],
-            'blog_nav': self.blog_nav,
-            'title': 'Recent Posts'
-        }
+        context = self.get_context()
+        context['title'] = 'Recent Posts'
+
         self.modify_context(request, context)
         return render(request, self.template, context)
 

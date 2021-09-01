@@ -5,6 +5,11 @@
   {{ object.head_html|safe }}
 {% endblock %}
 
+{% block additional-javascript %}
+  <!-- With this we overwrite the base block and prevent the "code_snippet.js" file from being loaded for a jupyter
+       post, because that breaks the layout completely -->
+{% endblock %}
+
 {% block entry-content %}
   <!-- The complete html of the actual jupyter notebook is saved as a string within the corresponding entry instance
        so here this entire html string is simply inserted to the template -->
