@@ -1,8 +1,10 @@
+import os
 from copy import deepcopy
 
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.http import HttpResponse, Http404
 
 from .models import get_most_recent_entries
 from .models import Entry, Tutorial, Project, JupyterNotebook
@@ -138,3 +140,33 @@ class JupyterNotebookListView(EntryListView):
         context['blog_nav']['jupyter']['active'] = True
         context['objects'] = JupyterNotebook.get_most_recent(20)
         context['title'] = 'Jupyter Notebooks'
+
+
+# == SPECIAL VIEWS
+
+class DownloadJupyterNotebookView(View):
+    """
+    This view is used to download the actual jupyter notebook files belonging to a corresponding instance of the
+    JupyterNotebook model. This view does not respond with a html string but instead the raw content of the file, which
+    prompts the browser to download it.
+
+    **THE IDEA**
+    So what I want to do is this: I want to have a button beneath a jupyter notebook post which allows to download
+    the actual jupyter notebook file so that an interested visitor may play around with it themselves.
+    To achieve this I would have to do this: I need a separate URL endpoint whose link I will put onto the button.
+    This endpoint will not respond with a html string (which represents a web page) but instead a special http payload
+    which tells the browser that I am trying to make it download a file.
+
+    https://stackoverflow.com/questions/62479933/enabling-a-django-download-button-for-pdf-download
+    """
+
+    def get(self, request, slug):
+        notebook = get_object_or_404(JupyterNotebook, slug=slug)
+
+        # TODO: At some point I think I also want to enable ZIP files here and I would have to add a if clause for
+        #       differing content types.
+        with open(notebook.jupyter_file.path) as file:
+            content = file.read()
+            response = HttpResponse(content, content_type='application/x-ipynb')
+            response['Content-Disposition'] = f'inline; filename={os.path.basename(notebook.jupyter_file.path)}'
+            return response

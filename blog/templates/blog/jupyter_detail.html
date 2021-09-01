@@ -6,5 +6,19 @@
 {% endblock %}
 
 {% block entry-content %}
+  <!-- The complete html of the actual jupyter notebook is saved as a string within the corresponding entry instance
+       so here this entire html string is simply inserted to the template -->
   {{ object.content_html|safe }}
+
+  {% if object.content %}
+    <div class="blog entry entry-content">
+      {{ object.content }}
+    </div>
+  {% endif %}
+
+  <!-- Button to allow download of the actual jupyter notebook file -->
+  <a class="blog entry download-notebook" href="{% url 'blog:download_jupyter' slug=object.slug %}">
+    Download Notebook
+  </a>
+
 {% endblock %}

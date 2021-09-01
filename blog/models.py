@@ -122,7 +122,8 @@ class Entry(models.Model):
         represent that certain type of entry.
     """
 
-    title = CharField(max_length=250)
+    title = CharField(max_length=250,
+                      help_text='The main title of the entry. Does not have to be unique')
     subtitle = CharField(max_length=250, default='', blank=True)
     description = CharField(max_length=200, default='', blank=True)
     slug = SlugField(max_length=250, default='auto', unique=True)
@@ -133,8 +134,6 @@ class Entry(models.Model):
     previous = URLField(null=True, blank=True)
 
     comments = GenericRelation(Comment)
-
-    # tags = TaggableManager()
 
     class Meta:
         abstract = True
@@ -154,6 +153,10 @@ class Entry(models.Model):
     @classproperty
     def detail_view_name(cls):
         return f'{cls.type}_detail'
+
+    @property
+    def comment_count(self):
+        return len(self.comments)
 
     # TODO: Replace this with just having the "view_name", that would seem cleaner and not so hacky.
     @property

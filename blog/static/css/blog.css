@@ -163,6 +163,7 @@ img.blog.thumbnail {
 
 div.blog.entry-item.content-container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 20px;
 }
@@ -182,7 +183,7 @@ div.blog.entry-item.content-container {
 
 .blog.entry-item.description {
   flex-grow: 2;
-
+  width: 100%;
   font-family: "Open Sans", sans-serif;
   font-size: 1.2em;
 }
@@ -350,6 +351,15 @@ h3.blog.entry.comments-header {
   align-items: stretch;
 }
 
+.blog.entry.no-comments {
+  margin-left: auto;
+  margin-right: auto;
+  color: gray;
+  font-size: 1.1em;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .blog.entry.comment {
   display: flex;
   flex-direction: row;
@@ -414,17 +424,21 @@ h3.blog.entry.comments-header {
   flex-grow: 2;
 }
 
+.blog.entry.comment-submit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .blog.entry.comment-submit {
   font-size: 1.4em;
   font-family: Arial, sans-serif;
   font-weight: bold;
-  background-color: orange;
+  background-color: #f1c453;
   color: white;
-  margin-left: auto;
-  margin-right: auto;
   padding: 5px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
   border-style: none;
   border-radius: 0;
 }
@@ -445,5 +459,27 @@ div.blog.entry-container>div#notebook {
 
 div.blog.entry-container>div#notebook>div#notebook-container {
   box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.3);
+}
+
+a.blog.download-notebook {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.4em;
+  color: white;
+  background-color: #f1c453;
+  padding: 12px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+a.blog.download-notebook:hover {
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+a.blog.download-notebook:visited, a.blog.download-notebook:focus {
+  text-decoration: none;
 }
 

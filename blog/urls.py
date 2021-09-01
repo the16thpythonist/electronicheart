@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import TutorialDetailView, ProjectDetailView, JupyterNotebookDetailView
 from .views import EntryListView, TutorialListView, ProjectListView, JupyterNotebookListView
+from .views import DownloadJupyterNotebookView
 
 app_name = "blog"
 
@@ -19,5 +20,8 @@ urlpatterns = [
     path('jupyter/', view=JupyterNotebookListView.as_view(), name='jupyter_list'),
     path('jupyter/<slug:slug>/',
          view=JupyterNotebookDetailView.as_view(),
-         name=JupyterNotebookDetailView.model.detail_view_name)
+         name=JupyterNotebookDetailView.model.detail_view_name),
+    path('jupyter/<slug:slug>/download',
+         view=DownloadJupyterNotebookView.as_view(),
+         name='download_jupyter')
 ]
