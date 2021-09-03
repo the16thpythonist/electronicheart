@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block additional-head %}
-  {{ object.head_html|safe }}
+  {{ object.jupyter.head_html|safe }}
 {% endblock %}
 
 {% block additional-javascript %}
@@ -13,11 +13,11 @@
 {% block entry-content %}
   <!-- The complete html of the actual jupyter notebook is saved as a string within the corresponding entry instance
        so here this entire html string is simply inserted to the template -->
-  {{ object.content_html|safe }}
+  {{ object.jupyter.content_html|safe }}
 
   {% if object.content %}
     <div class="blog entry entry-content">
-      {{ object.content }}
+      {{ object.content|safe }}
     </div>
   {% endif %}
 

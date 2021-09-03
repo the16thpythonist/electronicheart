@@ -84,6 +84,7 @@ div.content {
 
 .blog.list-title {
   margin: 0;
+  text-align: center;
 }
 
 .blog.list-separator {
@@ -451,6 +452,13 @@ h3.blog.entry.comments-header {
 .blog.entry.comment-submit:hover {
   cursor: pointer;
   opacity: 0.9;
+}
+
+ul.errorlist {
+  padding-left: 15px;
+  opacity: 0.8;
+  font-size: 0.9em;
+  color: darkred;
 }
 
 /* Specifically adjusting the styling of the jupyter notebook elements so that they fit into the blog page.

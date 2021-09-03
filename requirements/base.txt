@@ -5,10 +5,19 @@ argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 whitenoise==5.2.0  # https://github.com/evansd/whitenoise
 redis==3.5.3  # https://github.com/andymccurdy/redis-py
 hiredis==1.1.0  # https://github.com/redis/hiredis-py
+
 # beautifulsoup is actually a html parser. We need this for the special functionality of importing jupyter notebooks
 # as blog posts. Jupyter files are first exported into html and then imported in the django blog. There the html is
 # parsed and the relevant parts are stitched into the post template.
 beautifulsoup4==4.8.2 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
+lxml==4.5.0 # Better html parser for beautifulsoup
+
+# Extremely useful to filter comments with!
+# NOTE: You also have to download the english spacy model. This has to be done with a specific comment line
+# action which is implemented in the dockerfile
+# https://stackoverflow.com/questions/53911615/not-able-to-load-english-language-module-of-spacy-with-spacy-loaden
+profanity-filter==1.3.3
+spacy==2.3.7
 
 # Django
 # ------------------------------------------------------------------------------

@@ -32,9 +32,6 @@ class NavView(View):
         self.nav = deepcopy(self.NAV_DEFAULT)
         super(NavView, self).__init__(*args, **kwargs)
 
-    def modify_context(self, context):
-        context['nav'] = self.nav
-
 
 class HomepageView(NavView):
 

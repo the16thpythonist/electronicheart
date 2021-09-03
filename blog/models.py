@@ -1,6 +1,6 @@
 from __future__ import annotations
 import datetime
-from typing import List
+from typing import List, Type, Sequence, Dict, Any, Callable
 
 from django.db import models
 from django.db.models import (SlugField,
@@ -9,7 +9,8 @@ from django.db.models import (SlugField,
                               DateTimeField,
                               URLField,
                               ForeignKey,
-                              BooleanField)
+                              BooleanField,
+                              Choices)
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.decorators import classproperty
@@ -68,6 +69,10 @@ class Comment(models.Model):
     # profile picture will be set. This will ensure that the same person could be identified by the profile picture.
     image = FilerImageField(on_delete=models.CASCADE, null=True, blank=True)
 
+    @property
+    def html(self):
+        return self.content.replace('\n', '<br>')
+
     def save(self, *args, **kwargs):
         if not self.hash_id:
             self.hash_id = self.generate_hash_id()
@@ -107,40 +112,83 @@ class Comment(models.Model):
     get_shortened_content.short_description = 'Content'
 
 
+
+"""
+**REWORKING THE ENTRY MODEL**
+
+So this has been a learning experience. Here is how my first attempt at the models looked like: I had an *abstract*
+base model "Entry" as one class and then several classes "Tutorial", "Project", "JupyterNotebook" which all inherited
+from this base class and implemented actual models. I thought this was a good approach since this is how you would be
+encouraged to do it with usual object oriented programming. All these specific classes have a lot in common but some
+differences.
+
+Now I have come to the painful realization, that this is actually BAD. I have been thinking in terms of object
+orientation, but these classes model the tables of a relational database. The ORM only makes it seem like it is related
+to object orientation. In the database model the inheritance thing doesnt really translate. One huge problem is that
+there is no way of querying against the general "entry" type. For some cases I would like to search over all entries
+and thats just not possible. The fact that the database sees these as more or less fundamentally different models is
+that producing a general template only kind of works with a bit of hackery and implicit assumptions...
+
+So I will have to change the whole way the models work. My plan would be to have only a single "Entry" model and then
+differentiate the types by using a ChoiceField. Now with this approach there are other complications then: The jupyter
+entry type is for example extremely different in the sense that it requires a bunch more fields. My plan for that would
+be to have an additional model JupyterExtension, put the fields there and make an optional one-to-one relationship.
+In the templates I'll have to render these extension fields then conditionally based on the type. Another thing which
+causes me some headache is how to do the admin section in that case then but that is not as big of a problem if it does
+not work out as the way it is now in general.
+"""
+
+
 class Entry(models.Model):
 
-    type = 'entry'
-    """
-    :cvar str type: This class variable will have to be overwritten by the specific implementations of the abstract
-        base model! It is supposed to be a simple unique identifier string for each individual entry type.
-    """
+    TYPE_TUTORIAL = 'tutorial'
+    TYPE_PROJECT = 'project'
+    TYPE_JUPYTER = 'jupyter'
 
-    fa_icon = '<i class="fa fa-circle"></i>'
-    """
-    :cvar str fa_icon: This class variable will have to be overwritten by the specific implementation of the abstract
-        base model! It is a html string, which defines the font awesome "i" icon element that is to be used to
-        represent that certain type of entry.
-    """
+    TYPE_CHOICES = (
+        (TYPE_TUTORIAL, 'Tutorial'),
+        (TYPE_PROJECT, 'Project'),
+        (TYPE_JUPYTER, 'Jupyter Notebook')
+    )
 
+    ICON_MAP = {
+        TYPE_TUTORIAL: '<i class="fa fa-graduation-cap"></i>',
+        TYPE_PROJECT: '<i class="fa fa-bolt"></i>',
+        TYPE_JUPYTER: '<i class="fa fa-code"></i>',
+    }
+
+    type = CharField(max_length=10,
+                     choices=TYPE_CHOICES)
     title = CharField(max_length=250,
                       help_text='The main title of the entry. Does not have to be unique')
     subtitle = CharField(max_length=250, default='', blank=True)
     description = CharField(max_length=200, default='', blank=True)
+    author = ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='tutorials')
+    thumbnail = FilerImageField(related_name="tutorial_thumbnail", on_delete=models.CASCADE, null=True)
+
     slug = SlugField(max_length=250, default='auto', unique=True)
+
     content = TextField(default='')
+    text = TextField(default='')
+
     publishing_date = DateTimeField(default=timezone.now)
     creation_date = DateTimeField(default=timezone.now)
+
     next = URLField(null=True, blank=True)
     previous = URLField(null=True, blank=True)
 
     comments = GenericRelation(Comment)
 
-    class Meta:
-        abstract = True
-
     def save(self, *args, **kwargs) -> None:
         if self.slug == 'auto':
             self.slug = slugify(self.title)
+
+        # So we need the "text" property to literally just contain the content of the post in all lower case and
+        # without all the html markup (this will be used for fulltext search of keywords). BeautifulSoup does this
+        # really well natively.
+        soup = BeautifulSoup(self.content, 'lxml')
+        self.text = soup.text.lower()
+
         super(Entry, self).save(*args, **kwargs)
 
     @classmethod
@@ -150,13 +198,13 @@ class Entry(models.Model):
 
         return entries
 
-    @classproperty
-    def detail_view_name(cls):
-        return f'{cls.type}_detail'
-
     @property
     def comment_count(self):
-        return len(self.comments.all())
+        return len(self.comments.filter(active=True))
+
+    @property
+    def fa_icon(self):
+        return self.ICON_MAP[self.type]
 
     # TODO: Replace this with just having the "view_name", that would seem cleaner and not so hacky.
     @property
@@ -182,6 +230,36 @@ class Entry(models.Model):
         return reverse_lazy(view_name, kwargs={'slug': self.slug})
 
 
+class JupyterNotebookExtension(models.Model):
+
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE, related_name='jupyter')
+    # TODO: In the future I might be able to make it such that the user only needs to provide the ipynb file and the
+    #       the conversion is done automatically.
+    # TODO: Maybe there is a way to check if the files have the correct file extensions and such?
+    # So when creating a new "jupyter" post, the user needs to provide two files: The actual juypter notebook file
+    # (this will only be necessary for letting the user download the file to try out themselves) and the html file
+    # which was exported from the notebook. The idea is that the html file is parsed and the relevant html parts are
+    # then rendered in the django post template.
+    jupyter_file = FilerFileField(on_delete=models.CASCADE, related_name='jupyter_file')
+    html_file = FilerFileField(on_delete=models.CASCADE, related_name='html_file')
+
+    # These two fields should contain the html code which actually represents the jupyter notebook. These should NOT
+    # be manually settable, they are automatically derived from the html file.
+    head_html = TextField(null=True, blank=True)
+    content_html = TextField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.html_file:
+            with open(self.html_file.path, mode='r') as file:
+                html_string = file.read()
+
+            soup = BeautifulSoup(html_string, 'html.parser')
+            self.head_html = str(soup.head)
+            self.content_html = str(soup.find(id='notebook'))
+
+        return super(JupyterNotebookExtension, self).save(*args, **kwargs)
+
+"""
 class Tutorial(Entry):
 
     type = 'tutorial'
@@ -229,12 +307,12 @@ class JupyterNotebook(Entry):
             self.content_html = str(soup.find(id='notebook'))
 
         return super(JupyterNotebook, self).save(*args, **kwargs)
-
+"""
 
 # == UTILITY FUNCTIONS
 
 def get_most_recent_entries(n: int,
-                            entry_subclasses: List[type] = [Tutorial, Project, JupyterNotebook]):
+                            entry_subclasses: List[type] = []):
 
     # TODO: Right now this is super dumb, have to change this
     entries = []
@@ -244,3 +322,32 @@ def get_most_recent_entries(n: int,
     print(entries)
     return entries
 
+
+"""
+**HOW DO I QUERY THE ENTRIES?**
+
+So I have run into a problem: I have effectively three separate models which I would like to treat as one thing in some
+cases and as their own thing in other cases. This sucks a little bit.
+"""
+
+
+def get_entries(n: int,
+                entry_subclasses: List[Type[Entry]] = [],
+                filter_args: List[Any] = [],
+                filter_kwargs: Dict[str, Any] = {},
+                order_args: List[str] = [],
+                sort_callback: Callable = lambda l: l):
+
+    entries = []
+    for subclass in entry_subclasses:
+        queryset = subclass.objects.filter(*filter_args, **filter_kwargs).order_by(*order_args)
+        if n > 0:
+            queryset = queryset[:n]
+        entries += list(queryset)
+
+    entries = sort_callback(entries)
+
+    if len(entries) >= n and n > 0:
+        entries = entries[:n]
+
+    return entries

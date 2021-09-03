@@ -1,13 +1,16 @@
 import os
+import datetime
 from copy import deepcopy
 
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
+# https://stackoverflow.com/questions/739776/how-do-i-do-an-or-filter-in-a-django-query
+from django.db.models import Q
 
-from .models import get_most_recent_entries
-from .models import Entry, Tutorial, Project, JupyterNotebook
+from .models import get_most_recent_entries, get_entries
+from .models import Entry
 from .models import Comment
 from .forms import CommentForm
 from electronicheart.views import NavView
@@ -58,6 +61,7 @@ class EntryDetailView(BlogView):
         context = self.get_context()
         context['object'] = obj
         context['comment_form'] = CommentForm()
+        self.modify_context(request, context)
 
         return render(request, self.template, context)
 
@@ -80,28 +84,21 @@ class EntryDetailView(BlogView):
 
         context = self.get_context()
         context['object'] = obj
-        context['comment_form'] = CommentForm()
+        context['comment_form'] = form
+        self.modify_context(request, context)
 
         return render(request, self.template, context)
 
-
-class TutorialDetailView(EntryDetailView):
-
-    model = Tutorial
-    template = 'blog/entry_detail.html'
-
-
-class ProjectDetailView(EntryDetailView):
-
-    model = Project
-    template = 'blog/entry_detail.html'
+    def modify_context(self, request, context):
+        pass
 
 
 class JupyterNotebookDetailView(EntryDetailView):
 
-    model = JupyterNotebook
     template = 'blog/jupyter_detail.html'
 
+    def modify_context(self, request, context):
+        print(context['object'].jupyter)
 
 # == LIST VIEWS
 
@@ -109,6 +106,8 @@ class JupyterNotebookDetailView(EntryDetailView):
 class EntryListView(BlogView):
 
     template = 'blog/entry_list.html'
+    entry_count = 20
+    filter_kwargs = {}
 
     def get(self, request):
         context = self.get_context()
@@ -118,30 +117,70 @@ class EntryListView(BlogView):
         return render(request, self.template, context)
 
     def modify_context(self, request, context: dict):
-        context['objects'] = get_most_recent_entries(20)
+
+        # If there are additional get parameters than we need to do fancy stuff because that means that the user has
+        # potentially used the search form or requests older posts specifically. If that is not the case then we
+        # we simply can return the most recent posts
+        if request.GET:
+
+            if 'older' in request.GET:
+                older_date = request.GET['older']
+                entries = Entry.objects.filter(publishing_date__lte=older_date,
+                                               **self.filter_kwargs)\
+                                       .order_by('-publishing_date')[:self.entry_count]
+                context['objects'] = entries
+                context['title'] += f'<br>older than: {older_date}'
+                context['oldest'] = entries[-1].publishing_date
+                return
+
+            if 'search' in request.GET:
+                search_string = request.GET['search']
+                # Most important are titles
+                entries = Entry.objects.filter(Q(title__icontains=search_string) |
+                                               Q(subtitle__icontains=search_string)).all()
+
+                # And only then we want to list the "semi related" posts which contain the search in the fulltext
+                entries += Entry.objects.filter(text__icontains=search_string).all()
+                context['objects'] = entries
+                context['title'] += f'<br>search: "{search_string}"'
+                return
+
+        # Since the special cases return this is the default operation if none of these special cases is present.
+        entries = Entry.objects.filter(publishing_date__lte=datetime.datetime.now(),
+                                       **self.filter_kwargs)\
+                               .order_by('-publishing_date')[:self.entry_count]
+        context['objects'] = entries
+        context['oldest'] = entries[-1].publishing_date
+        print(context['oldest'])
 
 
 class TutorialListView(EntryListView):
 
+    filter_kwargs = {'type': Entry.TYPE_TUTORIAL}
+
     def modify_context(self, request, context):
+        super(TutorialListView, self).modify_context(request, context)
         context['blog_nav']['tutorial']['active'] = True
-        context['objects'] = Tutorial.get_most_recent(20)
         context['title'] = 'Tutorials'
 
 
 class ProjectListView(EntryListView):
 
+    filter_kwargs = {'type': Entry.TYPE_PROJECT}
+
     def modify_context(self, request, context):
+        super(ProjectListView, self).modify_context(request, context)
         context['blog_nav']['project']['active'] = True
-        context['objects'] = Project.get_most_recent(20)
         context['title'] = 'Projects'
 
 
 class JupyterNotebookListView(EntryListView):
 
+    filter_kwargs = {'type': Entry.TYPE_JUPYTER}
+
     def modify_context(self, request, context):
+        super(JupyterNotebookListView, self).modify_context(request, context)
         context['blog_nav']['jupyter']['active'] = True
-        context['objects'] = JupyterNotebook.get_most_recent(20)
         context['title'] = 'Jupyter Notebooks'
 
 
@@ -164,7 +203,7 @@ class DownloadJupyterNotebookView(View):
     """
 
     def get(self, request, slug):
-        notebook = get_object_or_404(JupyterNotebook, slug=slug)
+        notebook = get_object_or_404(Entry, slug=slug)
 
         # TODO: At some point I think I also want to enable ZIP files here and I would have to add a if clause for
         #       differing content types.

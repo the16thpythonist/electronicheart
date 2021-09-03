@@ -5,7 +5,7 @@
   <div class="center-container">
 
     <h1 class="blog list-title">
-      {{ title }}
+      {{ title|safe }}
     </h1>
     <div class="blog list-separator"></div>
 
@@ -13,7 +13,7 @@
       {% for object in objects %}
       <!-- Depending on the IDE, the following line will probably show a template syntax error, but in reality it is
            works. The code assembles the detail name dynamically for an unknown sub type of the entry model type -->
-      <a class="blog entry-item-container" href="{% url "blog:"|add:object.detail_view_name slug=object.slug %}">
+      <a class="blog entry-item-container" href="{% url "blog:"|add:object.type slug=object.slug %}">
 
         <div class="blog entry-item type">
           {{ object.fa_icon|safe }}

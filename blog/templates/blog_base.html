@@ -14,9 +14,9 @@
   <div class="blog sub-navbar-container">
     <div class="blog sub-navbar">
 
-      <div class="blog search-bar-container">
-        <input class="blog search-bar" type="text" placeholder="Search...">
-      </div>
+      <form class="blog search-bar-container" method="get" action="{% url 'blog:entry_list' %}">
+        <input class="blog search-bar" type="text" placeholder="Search..." id="search" name="search">
+      </form>
 
       <div class="blog nav-items">
         {% for key, data in blog_nav.items %}
