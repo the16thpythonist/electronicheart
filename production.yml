@@ -17,6 +17,11 @@ services:
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
+    volumes:
+      # The build process can take quite a while if many of the libraries have to be compiled first (which is the case
+      # when attempting to run the thing on a non standard architecture like the raspberry pi). A lot of these build
+      # results are saved in /tmp. This will hopefully persist these between builds and speed up the process?
+      - /tmp:/tmp
     command: /start
 
   postgres:
@@ -46,4 +51,4 @@ services:
   redis:
     image: redis:5.0
 
-  
+

@@ -134,7 +134,7 @@ Using nvm's install command will install the most recent version of node js and 
 
 .. code-block:: bash
 
-    nvm install
+    nvm install 12
     node --version
     npm --version
 
@@ -146,12 +146,7 @@ folder.
     cd electronicheart/vue_frontend
     npm install
 
-The installation should take a few minutes. After it is done we can run the "build" script to create the compiled and
-minified JS files for the frontend.
-
-.. code-block:: bash
-
-    npm run build
+The installation should take a few minutes.
 
 With this, the frontend installation is almost done. But we still need to adjust the environmental variables to use
 our hostname. For that edit the ".env" file within the frontend folder.
@@ -160,6 +155,13 @@ our hostname. For that edit the ".env" file within the frontend folder.
 
     VUE_APP_STATIC_ROOT=http://{OUR HOSTNAME}/static
     VUE_APP_API_ROOT=http://{OUR HOSTNAME}/api
+
+After it is done we can run the "build" script to create the compiled and
+minified JS files for the frontend.
+
+.. code-block:: bash
+
+    npm run build
 
 **The backend.** For the backend it is important to install docker first.
 
