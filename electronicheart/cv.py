@@ -19,19 +19,19 @@ def get_age():
     today = datetime.datetime.now()
     timedelta = today - BIRTHDAY
     delta_days = timedelta.days
-    delta_years = math.floor(delta_days / (365 * 12))
+    delta_years = math.floor(delta_days / 365)
     return delta_years
 
 
 CV = {
     'profile': {
         'about_me': (
-            'Currently, I am a student of electrical engineering with a primary focus on control systems engineering '
-            'at the Karlsruhe Institute of Technology. Besides university, I also do part time programming. My main '
+            'I am a student of electrical engineering with a primary focus on control systems engineering '
+            'at the Karlsruhe Institute of Technology. <br> <br>'
+            'Besides university, I also do part time programming. My main '
             'area of expertise is the python programming language, where I have dipped my toes into all sorts of '
             'domains such as command line applications, GUIs, machine learning, optimization algorithms, game and web '
-            'development. Nowadays I mainly find myself tinkering with the web, but my heart is with all things '
-            'electronic.'
+            'development.'
         ),
         'image_url': static_url('images/profile_picture.jpg'),
         'name': 'Jonas Teufel',
@@ -119,78 +119,157 @@ CV = {
             [
                 {
                     'name': 'Python',
+                    'classes': ['main'],
                     'rating': [1, 1, 1, 1, 1],
                     'icon_url': 'https://python.org/static/favicon.ico'
                 },
                 {
                     'name': 'Click',
+                    'classes': ['secondary'],
                     'rating': [1, 1, 1, 1, 0],
                     'icon_url': static_url('images/favicons/click.ico')
                 },
                 {
                     'name': 'Django',
+                    'classes': ['secondary'],
                     'rating': [1, 1, 1, 0, 0],
                     'icon_url': static_url('images/favicons/django.ico')
                 },
                 {
                     'name': 'Flask',
+                    'classes': ['secondary'],
                     'rating': [1, 1, 0, 0, 0],
                     'icon_url': static_url('images/favicons/flask.ico')
+                },
+                {
+                    'name': 'C#',
+                    'classes': ['main'],
+                    'rating': [1, 1, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/csharp.ico')
+                },
+                {
+                    'name': 'Unity',
+                    'classes': ['secondary'],
+                    'rating': [1, 0, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/unity.ico')
                 }
             ],
             [
                 {
                     'name': 'HTML5',
+                    'classes': ['main'],
                     'rating': [1, 1, 1, 1, 0],
                     'icon_url': static_url('images/favicons/html.ico')
                 },
                 {
                     'name': 'CSS',
+                    'classes': ['main'],
                     'rating': [1, 1, 1, 1, 0],
                     'icon_url': static_url('images/favicons/css.ico')
                 },
                 {
                     'name': 'Javascript',
+                    'classes': ['main'],
                     'rating': [1, 1, 1, 0, 0],
                     'icon_url': static_url('images/favicons/js.ico')
                 },
                 {
                     'name': 'VueJS',
+                    'classes': ['secondary'],
                     'rating': [1, 1, 0, 0, 0],
                     'icon_url': static_url('images/favicons/vue.ico')
                 },
                 {
                     'name': 'PHP',
+                    'classes': ['main'],
                     'rating': [1, 1, 1, 0, 0],
                     'icon_url': static_url('images/favicons/php.ico')
                 },
                 {
                     'name': 'Wordrpess',
-                    'rating': [1, 1, 0, 0, 0],
+                    'classes': ['secondary'],
+                    'rating': [1, 1, 1, 0, 0],
                     'icon_url': static_url('images/favicons/wordpress.ico')
+                }
+            ]
+        ],
+        'Software': [
+            [
+                {
+                    'name': 'Linux',
+                    'classes': ['main'],
+                    'rating': [1, 1, 1, 0, 0],
+                    'icon_url': static_url('images/favicons/linux.ico')
+                },
+                {
+                    'name': 'Ubuntu',
+                    'classes': ['secondary'],
+                    'rating': [1, 1, 1, 0, 0],
+                    'icon_url': static_url('images/favicons/ubuntu.ico')
+                },
+                {
+                    'name': 'OpenSUSE',
+                    'classes': ['secondary'],
+                    'rating': [1, 1, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/suse.ico')
+                },
+                {
+                    'name': 'Docker',
+                    'classes': ['main'],
+                    'rating': [1, 1, 1, 0, 0],
+                    'icon_url': static_url('images/favicons/docker.ico')
+                },
+                {
+                    'name': 'OpenShift',
+                    'classes': ['secondary'],
+                    'rating': [1, 0, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/openshift.ico')
+                }
+            ],
+            [
+                {
+                    'name': 'LaTeX',
+                    'classes': ['main'],
+                    'rating': [1, 1, 1, 0, 0],
+                    'icon_url': static_url('images/favicons/latex.ico')
+                },
+                {
+                    'name': 'PyCharm',
+                    'classes': ['main'],
+                    'rating': [1, 1, 1, 0, 0],
+                    'icon_url': static_url('images/favicons/pycharm.ico')
+                },
+                {
+                    'name': 'PhpStorm',
+                    'classes': ['main'],
+                    'rating': [1, 1, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/phpstorm.ico')
+                },
+                {
+                    'name': 'LTSpice',
+                    'classes': ['main'],
+                    'rating': [1, 1, 0, 0, 0],
+                    'icon_url': static_url('images/favicons/ltspice.ico')
                 }
             ]
         ]
     },
     'projects': [
-        {
-            'name': 'Schiller in Space',
-            'image_url': static_url('images/ipe.jpg')
-        },
-        {
-            'name': 'UcaPhantom',
-            'image_url': static_url('images/ipe.jpg')
-        },
-        {
-            'name': 'UfoTest',
-            'image_url': static_url('images/ipe.jpg')
-        }
+
+    ],
+    'publications': [
+
     ],
     'contacts': [
         {
             'content': 'jonseb1998@gmail.com',
-            'href': '/',
-            'image_url': static_url('images/favicons/favicon.ico')
+            'href': 'mailto:jonseb1998@gmail.com',
+            'icon': '<i class="fa fa-envelope"></i>'
+        },
+        {
+            'content': 'Jonas Teufel',
+            'href': '',
+            'icon': '<i class="fa fa-linkedin"></i>'
         }
     ]
 }

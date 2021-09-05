@@ -208,6 +208,23 @@ div.blog.entry-item.content-container {
   margin-right: 5px;
 }
 
+.blog.older-button {
+  background-color: #f1c453;
+  color: white;
+  text-decoration: none;
+  border-style: none;
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 10px;
+  font-size: 1.3em;
+}
+
+.blog.older-button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
 /* STYLING FOR THE DETAIL VIEW */
 
 .blog.separator {

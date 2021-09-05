@@ -19,7 +19,7 @@
       <div class="profile-container">
         <div class="about-container">
           <h2>About Me</h2>
-          <p class="about">{{ profile.about_me }}</p>
+          <p class="about">{{ profile.about_me|safe }}</p>
         </div>
         <div class="profile-picture-container">
           <img class="profile-picture" src="{{ profile.image_url }}" height="300px" width="300px">
@@ -123,7 +123,7 @@
           {% for ability_list in ability_lists %}
             <div class="ability-list">
               {% for ability in ability_list %}
-                <div class="ability-item">
+                <div class="ability-item {{ ability.classes|join:' ' }}">
                   <img class="ability-icon" src="{{ ability.icon_url }}">
                   <div class="ability-name">{{ ability.name }}</div>
                   <div class="ability-rating">
@@ -150,14 +150,34 @@
     <div class="center-container">
       <h1>Projects</h1>
       <div class="separator"></div>
-      <div class="projects-container">
-        {% for project in projects %}
-          <div class="project-item">
-            <div class="project-name">{{ project.name }}</div>
-            <img class="project-image" src="{{ project.image_url }}">
-          </div>
-        {% endfor %}
-      </div>
+      {% if projects %}
+        <div class="projects-container">
+          {% for project in projects %}
+            <div class="project-item">
+              <div class="project-name">{{ project.name }}</div>
+              <img class="project-image" src="{{ project.image_url }}">
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div>
+          No project posts yet...
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- MY SCIENTIFIC PUBLICATIONS -->
+  <div class="publications">
+    <div class="center-container">
+      <h1>Publications</h1>
+      <div class="separator"></div>
+      {% if publications %}
+      {% else %}
+        <div>
+          No publications yet...
+        </div>
+      {% endif %}
     </div>
   </div>
 
@@ -169,7 +189,7 @@
       <div class="contact-container">
         {% for contact in contacts %}
           <a class="contact-item" href="{{ contact.href }}">
-            <img class="contact-image" src="{{ contact.image_url }}">
+            {{ contact.icon|safe }}
             <div class="contact-content">{{ contact.content }}</div>
           </a>
         {% endfor %}

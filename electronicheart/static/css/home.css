@@ -53,17 +53,15 @@ p {
   margin-bottom: 40px;
 }
 
-.education, .abilities, .frontpage, .contact {
-  background-color: #D5F5D5;
+.content>div {
   position: relative;
   z-index: 20;
+  background-color: #D5F5D5;
+}
+.content>div:nth-child(2n) {
+  background-color: white;
 }
 
-.profile, .experience, .projects {
-  background-color: white;
-  position: relative;
-  z-index: 20;
-}
 
 /* THE INDIVIDUAL SECTIONS */
 
@@ -160,6 +158,17 @@ img.experience-image:after {
 
 .experience-links>a {
   margin-right: 30px;
+  background-color: #f1c453;
+  color: white;
+  padding: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 0.85em;
+}
+
+.experience-links>a:hover {
+  cursor: pointer;
+  opacity: 0.9;
 }
 
 .experience-title {
@@ -186,6 +195,11 @@ img.experience-image:after {
   flex-direction: row;
   align-items: center;
   margin-top: 5px;
+}
+
+.ability-item.secondary {
+  padding-left: 20px;
+  color: #505050;
 }
 
 .ability-icon {
@@ -228,17 +242,19 @@ img.experience-image:after {
 
 .contact-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
 .contact-item {
-  width: 49%;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.contact-image {
+.contact i {
+  font-size: 1.3em;
   margin-right: 10px;
+  opacity: 0.8;
 }

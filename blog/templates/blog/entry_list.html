@@ -42,8 +42,15 @@
           </div>
         </div>
       </a>
-    {% endfor %}
+      {% endfor %}
     </div>
+
+    {% if older and not search %}
+      <form method="get" action="">
+        <input type="text" name="older" id="older" value="{{ older|date:"Y-m-d" }}" hidden>
+        <input class="blog older-button" type="submit" value="More Posts">
+      </form>
+    {% endif %}
 
   </div>
 {% endblock %}

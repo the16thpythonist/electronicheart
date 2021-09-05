@@ -121,37 +121,36 @@ class EntryListView(BlogView):
         # If there are additional get parameters than we need to do fancy stuff because that means that the user has
         # potentially used the search form or requests older posts specifically. If that is not the case then we
         # we simply can return the most recent posts
-        if request.GET:
 
-            if 'older' in request.GET:
-                older_date = request.GET['older']
-                entries = Entry.objects.filter(publishing_date__lte=older_date,
-                                               **self.filter_kwargs)\
-                                       .order_by('-publishing_date')[:self.entry_count]
-                context['objects'] = entries
-                context['title'] += f'<br>older than: {older_date}'
-                context['oldest'] = entries[-1].publishing_date
-                return
+        if request.GET and 'search' in request.GET:
+            search_string = request.GET['search']
+            # Most important are titles
+            entries = Entry.objects.filter(Q(title__icontains=search_string) |
+                                           Q(subtitle__icontains=search_string)).all()
 
-            if 'search' in request.GET:
-                search_string = request.GET['search']
-                # Most important are titles
-                entries = Entry.objects.filter(Q(title__icontains=search_string) |
-                                               Q(subtitle__icontains=search_string)).all()
+            # And only then we want to list the "semi related" posts which contain the search in the fulltext
+            entries += Entry.objects.filter(text__icontains=search_string).all()
+            context['objects'] = entries
+            context['title'] += f'<br>search: "{search_string}"'
+            context['search'] = search_string
 
-                # And only then we want to list the "semi related" posts which contain the search in the fulltext
-                entries += Entry.objects.filter(text__icontains=search_string).all()
-                context['objects'] = entries
-                context['title'] += f'<br>search: "{search_string}"'
-                return
+        elif request.GET and 'older' in request.GET:
+            older_date = request.GET['older']
+            entries = Entry.objects.filter(publishing_date__lte=older_date,
+                                           **self.filter_kwargs)\
+                                   .order_by('-publishing_date')[:self.entry_count]
+            context['objects'] = list(entries)
+            context['title'] += f'<br>older than: {older_date}'
 
         # Since the special cases return this is the default operation if none of these special cases is present.
-        entries = Entry.objects.filter(publishing_date__lte=datetime.datetime.now(),
-                                       **self.filter_kwargs)\
-                               .order_by('-publishing_date')[:self.entry_count]
-        context['objects'] = entries
-        context['oldest'] = entries[-1].publishing_date
-        print(context['oldest'])
+        else:
+            entries = Entry.objects.filter(publishing_date__lte=datetime.datetime.now(),
+                                           **self.filter_kwargs)\
+                                   .order_by('-publishing_date')[:self.entry_count]
+            context['objects'] = list(entries)
+
+        if len(context['objects']) != 0:
+            context['older'] = context['objects'][-1].publishing_date
 
 
 class TutorialListView(EntryListView):
