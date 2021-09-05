@@ -17,7 +17,7 @@ RUN apt-get update \
   # 05.09.2021: Required libraries for lxml python package
   && apt-get install -y python3-lxml python-lxml libxml2-dev libxslt-dev python-dev \
   # 05.09.2021: Required libraries for the numpy python package
-  && apt-get install -y libatlas-base-dev
+  && apt-get install -y libatlas-base-dev \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
