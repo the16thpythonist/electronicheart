@@ -1,9 +1,15 @@
 version: '3'
 
 volumes:
+  # These are for the actual web server
   production_postgres_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
+  # These are for the additional matomo web analytics service
+  # https://matomo.org/docs/installation/
+  # https://github.com/matomo-org/docker/blob/master/.examples/apache/docker-compose.yml
+  production_mariadb_data: {}
+  production_matomo: {}
 
 services:
   django:
@@ -51,4 +57,26 @@ services:
   redis:
     image: redis:5.0
 
+  # == MATOMO WEB ANALYTICS ==
+
+  mariadb:
+    image: mariadb
+    command: --max-allowed-packet=64MB
+    restart: always
+    volumes:
+      - production_mariadb_data:/var/lib/mariadb
+    env_file:
+      - .envs/.production/.matomo
+
+  matomo:
+    image: matomo
+    restart: always
+    volumes:
+      - production_matomo:/var/www/html
+    environment:
+      - MATOMO_DATABASE_HOST=mariadb
+    env_file:
+      - .envs/.production/.matomo
+    ports:
+      - 8080:8080
 
