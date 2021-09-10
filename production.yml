@@ -53,6 +53,7 @@ services:
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
+      - "0.0.0.0:8080:8080"
 
   redis:
     image: redis:5.0
@@ -88,6 +89,6 @@ services:
       - MATOMO_DATABASE_HOST=mariadb
     env_file:
       - .envs/.production/.matomo
-    ports:
-      - "0.0.0.0:8080:80"
+    #ports:
+    #  - "0.0.0.0:8080:80"
 
