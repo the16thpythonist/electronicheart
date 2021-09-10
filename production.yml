@@ -71,7 +71,11 @@ services:
       - .envs/.production/.matomo
 
   matomo:
-    image: matomo
+    # Weirdly there is a permission problem when using the "matomo" image straigth from the library so instead we extend
+    # it with our own Dockerfile and try to fix the permission error there.
+    build:
+      context: .
+      dockerfile: ./compose/production/matomo/Dockerfile
     restart: always
     volumes:
       - production_matomo:/var/www/html
