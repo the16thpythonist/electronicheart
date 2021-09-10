@@ -63,10 +63,10 @@ services:
     # I am intending to deploy this on the raspberry pi and the default mariadb image does not support the raspi ARM
     # architecture, but apparently this version does so we are using this one.
     image: webhippie/mariadb
-    command: --max-allowed-packet=64MB
+    # command: --max-allowed-packet=64MB
     restart: always
     volumes:
-      - production_mariadb_data:/var/lib/mariadb
+      - production_mariadb_data:/var/lib/mysql
     env_file:
       - .envs/.production/.matomo
 
@@ -80,5 +80,5 @@ services:
     env_file:
       - .envs/.production/.matomo
     ports:
-      - 8080:8080
+      - "0.0.0.0:8080:80"
 
