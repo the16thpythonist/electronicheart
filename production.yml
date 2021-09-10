@@ -8,7 +8,7 @@ volumes:
   # These are for the additional matomo web analytics service
   # https://matomo.org/docs/installation/
   # https://github.com/matomo-org/docker/blob/master/.examples/apache/docker-compose.yml
-  production_mariadb_data: {}
+  production_mysql_data: {}
   production_matomo: {}
 
 services:
@@ -59,12 +59,12 @@ services:
 
   # == MATOMO WEB ANALYTICS ==
 
-  mariadb:
-    image: mariadb
+  mysql:
+    image: mysql
     command: --max-allowed-packet=64MB
     restart: always
     volumes:
-      - production_mariadb_data:/var/lib/mariadb
+      - production_mysql_data:/var/lib/mysql
     env_file:
       - .envs/.production/.matomo
 
@@ -74,7 +74,7 @@ services:
     volumes:
       - production_matomo:/var/www/html
     environment:
-      - MATOMO_DATABASE_HOST=mariadb
+      - MATOMO_DATABASE_HOST=mysql
     env_file:
       - .envs/.production/.matomo
     ports:
