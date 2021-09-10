@@ -80,7 +80,7 @@ services:
     privileged: true
     depends_on:
       - mariadb
-    link:
+    links:
       - mariadb
     volumes:
       - production_matomo:/var/www/html
