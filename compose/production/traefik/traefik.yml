@@ -27,7 +27,7 @@ http:
   routers:
     web-router:
       #rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
-      rule: "Host(`www.electronic-heart.com`)"
+      rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
 
       entryPoints:
         - web
@@ -38,7 +38,7 @@ http:
 
     web-secure-router:
       # rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
-      rule: "Host(`www.electronic-heart.com`)"
+      rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
 
       entryPoints:
         - web-secure
@@ -50,7 +50,7 @@ http:
         certResolver: letsencrypt
 
     matomo-secure-router:
-      rule: "Host(`www.electronic-heart.com`)"
+      rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
 
       entryPoints:
         - matomo-secure
