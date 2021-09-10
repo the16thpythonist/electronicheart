@@ -82,6 +82,8 @@ THIRD_PARTY_APPS = [
     "easy_thumbnails",
     "filer",
     "mptt",
+    # For web analytics support
+    "analytical"
 ]
 
 LOCAL_APPS = [
@@ -317,3 +319,8 @@ WEBPACK_LOADER = {
 THUMBNAIL_HIGH_RESOLUTION = True
 # Configures the URL under which file saves it's images
 # FILER_CANONICAL_URL = 'sharing/'
+
+# These are just default values so the program does not crash during development. The actual values will be derived
+# from env variables. The code for this will overwrite these definitions in the production specific settings file
+MATOMO_DOMAIN_PATH = 'localhost'
+MATOMO_SITE_ID = '1'
