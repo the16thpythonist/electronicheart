@@ -10,7 +10,7 @@ entryPoints:
     # https
     address: ":443"
 
-  matamo-secure:
+  matomo-secure:
     address: ":8080"
 
 certificatesResolvers:
@@ -49,13 +49,14 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
-    matamo-secure-router:
+    matomo-secure-router:
       rule: "Host(`www.electronic-heart.com`)"
 
       entryPoints:
-        - matamo-secure
+        - matomo-secure
       middlewares:
         - csrf
+      service: matomo
       tls:
         certResolver: letsencrypt
 
@@ -77,10 +78,10 @@ http:
         servers:
           - url: http://django:5000
 
-    matamo:
+    matomo:
       loadBalancer:
         servers:
-          - url: http://matamo:80
+          - url: http://matomo:80
 
 providers:
   # https://docs.traefik.io/master/providers/file/
