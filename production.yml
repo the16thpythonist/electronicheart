@@ -8,7 +8,7 @@ volumes:
   # These are for the additional matomo web analytics service
   # https://matomo.org/docs/installation/
   # https://github.com/matomo-org/docker/blob/master/.examples/apache/docker-compose.yml
-  production_mysql_data: {}
+  production_mariadb_data: {}
   production_matomo: {}
 
 services:
@@ -59,12 +59,14 @@ services:
 
   # == MATOMO WEB ANALYTICS ==
 
-  mysql:
-    image: mysql
+  mariadb:
+    # I am intending to deploy this on the raspberry pi and the default mariadb image does not support the raspi ARM
+    # architecture, but apparently this version does so we are using this one.
+    image: webhippie/mariadb
     command: --max-allowed-packet=64MB
     restart: always
     volumes:
-      - production_mysql_data:/var/lib/mysql
+      - production_mariadb_data:/var/lib/mariadb
     env_file:
       - .envs/.production/.matomo
 
@@ -74,7 +76,7 @@ services:
     volumes:
       - production_matomo:/var/www/html
     environment:
-      - MATOMO_DATABASE_HOST=mysql
+      - MATOMO_DATABASE_HOST=mariadb
     env_file:
       - .envs/.production/.matomo
     ports:
