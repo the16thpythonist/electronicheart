@@ -77,6 +77,11 @@ services:
       context: .
       dockerfile: ./compose/production/matomo/Dockerfile
     restart: always
+    privileged: true
+    depends_on:
+      - mariadb
+    link:
+      - mariadb
     volumes:
       - production_matomo:/var/www/html
     environment:
