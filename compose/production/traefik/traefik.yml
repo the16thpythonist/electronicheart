@@ -13,6 +13,14 @@ entryPoints:
   matomo-secure:
     address: ":8080"
 
+  ftp-secure:
+    # ftp
+    address: ":21"
+
+  media-secure:
+    # http alternative
+    address: ":81"
+
 certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
@@ -26,8 +34,7 @@ certificatesResolvers:
 http:
   routers:
     web-router:
-      #rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
-      rule: "Host(`blog.electronic-heart.com`)"
+      rule: 'Host(`{{ env "DJANGO_ALLOWED_HOSTS" }}`)'
 
       entryPoints:
         - web
@@ -38,7 +45,8 @@ http:
 
     web-secure-router:
       # rule: "Host(`electronic-heart.com`) || Host(`www.electronic-heart.com`)"
-      rule: "Host(`blog.electronic-heart.com`)"
+      #rule: "Host(`blog.electronic-heart.com`)"
+      rule: 'Host(`{{ env "DJANGO_ALLOWED_HOSTS" }}`)'
 
       entryPoints:
         - web-secure
@@ -50,13 +58,35 @@ http:
         certResolver: letsencrypt
 
     matomo-secure-router:
-      rule: "Host(`blog.electronic-heart.com`)"
+      rule: 'Host(`{{ env "DJANGO_ALLOWED_HOSTS" }}`)'
 
       entryPoints:
         - matomo-secure
       middlewares:
         - csrf
       service: matomo
+      tls:
+        certResolver: letsencrypt
+
+    media-secure-router:
+      rule: 'Host(`{{ env "DJANGO_ALLOWED_HOSTS" }}`)'
+
+      entryPoints:
+        - media-secure
+      middlewares:
+        - csrf
+      service: media
+      tls:
+        certResolver: letsencrypt
+
+    ftp-secure-router:
+      rule: 'Host(`{{ env "DJANGO_ALLOWED_HOSTS" }}`)'
+
+      entryPoints:
+        - ftp-secure
+      middlewares:
+        - csrf
+      service: ftp
       tls:
         certResolver: letsencrypt
 
@@ -82,6 +112,16 @@ http:
       loadBalancer:
         servers:
           - url: http://matomo:80
+
+    media:
+      loadBalancer:
+        servers:
+          - url: http://media:80
+
+    ftp:
+      loadBalancer:
+        servers:
+          - url: http://media:21
 
 providers:
   # https://docs.traefik.io/master/providers/file/

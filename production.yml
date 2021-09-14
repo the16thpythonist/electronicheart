@@ -10,8 +10,11 @@ volumes:
   # https://github.com/matomo-org/docker/blob/master/.examples/apache/docker-compose.yml
   production_mariadb_data: {}
   production_matomo: {}
+  # This volume is for the media files
+  production_media: {}
 
 services:
+
   django:
     build:
       context: .
@@ -23,11 +26,13 @@ services:
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
+    privileged: true
     volumes:
       # The build process can take quite a while if many of the libraries have to be compiled first (which is the case
       # when attempting to run the thing on a non standard architecture like the raspberry pi). A lot of these build
       # results are saved in /tmp. This will hopefully persist these between builds and speed up the process?
       - /tmp:/tmp
+      - production_media:/www
     command: /start
 
   postgres:
@@ -41,6 +46,26 @@ services:
     env_file:
       - ./.envs/.production/.postgres
 
+  # == EXTERNAL MEDIA SERVER ==
+
+  media:
+    build:
+      context: .
+      dockerfile: ./compose/production/media/Dockerfile
+      args:
+        - MEDIA_SERVER_USERNAME=${MEDIA_SERVER_USERNAME}
+        - MEDIA_SERVER_PASSWORD=${MEDIA_SERVER_PASSWORD}
+    image: electronicheart_production_media
+    privileged: true
+    volumes:
+      - production_media:/www
+    env_file:
+      - .envs/.production/.django
+    ports:
+      - "21:21"
+
+  # == FRONTEND REVERSE PROXY ==
+
   traefik:
     build:
       context: .
@@ -50,10 +75,13 @@ services:
       - django
     volumes:
       - production_traefik:/etc/traefik/acme:z
+    env_file:
+      - .envs/.production/.django
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
       - "0.0.0.0:8080:8080"
+      - "0.0.0.0:81:81"
 
   redis:
     image: redis:5.0
@@ -89,6 +117,4 @@ services:
       - MATOMO_DATABASE_HOST=mariadb
     env_file:
       - .envs/.production/.matomo
-    #ports:
-    #  - "0.0.0.0:8080:80"
 
