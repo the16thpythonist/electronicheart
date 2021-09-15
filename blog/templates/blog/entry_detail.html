@@ -29,7 +29,7 @@
             {{ object.author.name }}
           </div>
           <div class="blog entry author-bio">
-            {{ object.author.bio }}
+            {{ object.author.bio | safe }}
           </div>
         </div>
       {% endblock %}
