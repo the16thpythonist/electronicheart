@@ -4,6 +4,7 @@
 
 {% block css%}
   <link href="{% static 'css/home.css' %}" rel="stylesheet">
+  <link href="{% static 'css/entry_list.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block content %}
@@ -60,7 +61,7 @@
 
             <div class="experience-item-content">
               <h3>{{ edu.title }}</h3>
-              <p class="experience-description">{{ edu.description }}</p>
+              <p class="experience-description">{{ edu.description | safe }}</p>
               <div class="experience-links">
                 {% for link in edu.links %}
                   <a href="{{ link.url }}">{{ link.title }}</a>
@@ -92,7 +93,7 @@
 
             <div class="experience-item-content">
               <h3>{{ exp.title }}</h3>
-              <p class="experience-description">{{ exp.description }}</p>
+              <p class="experience-description">{{ exp.description | safe }}</p>
               <div class="experience-links">
                 {% for link in exp.links %}
                   <a href="{{ link.url }}">{{ link.title }}</a>
@@ -152,11 +153,36 @@
       <div class="separator"></div>
       {% if projects %}
         <div class="projects-container">
-          {% for project in projects %}
-            <div class="project-item">
-              <div class="project-name">{{ project.name }}</div>
-              <img class="project-image" src="{{ project.image_url }}">
-            </div>
+          {% for object in projects %}
+            <a class="blog entry-item-container" href="{% url "blog:"|add:object.type slug=object.slug %}">
+
+              <div class="blog entry-item type">
+                {{ object.fa_icon|safe }}
+                {{ object.type|upper }}
+              </div>
+
+              <div class="blog entry-item image-container">
+                <img class="blog thumbnail" src="{{ object.thumbnail.url }}">
+              </div>
+
+              <div class="blog entry-item content-container">
+                <h2>{{ object.title }}</h2>
+                <h3>{{ object.subtitle }}</h3>
+                <div class="blog entry-item description">
+                  {{ object.description }}...
+                </div>
+                <div class="blog entry-item meta-container">
+                  <div class="blog entry-item meta author">
+                    <i class="fa fa-user"></i>
+                    {{ object.author }}
+                  </div>
+                  <div class="blog entry-item meta date">
+                    <i class="fa fa-calendar"></i>
+                    {{ object.publishing_date|date:"d F Y" }}
+                  </div>
+                </div>
+              </div>
+            </a>
           {% endfor %}
         </div>
       {% else %}

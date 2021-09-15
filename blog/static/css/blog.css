@@ -125,9 +125,12 @@ a.blog.entry-item-container:hover {
   bottom: 20px;
   color: gray;
   background-color: white;
-  opacity: 0.8;
+  opacity: 0.85;
   z-index: 10;
-  border-radius: 2px;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
   padding: 3px;
   font-family: Arial, sans-serif;
   font-size: 0.9em;
@@ -242,8 +245,8 @@ div.blog.entry-item.content-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 25%;
-  margin-left: 25%;
+  margin-right: 28%;
+  margin-left: 28%;
   margin-bottom: 100px;
 }
 
@@ -259,11 +262,13 @@ div.blog.entry-item.content-container {
 .blog.entry.title-container h1 {
   margin-top: 70px;
   margin-bottom: 15px;
+  font-size: 2em;
 }
 
 .blog.entry.title-container h2 {
   margin: 0;
   color: gray;
+  font-size: 1.8em;
 }
 
 .blog.entry.content-container {
@@ -275,12 +280,13 @@ div.blog.entry-item.content-container {
   margin-top: 40px;
   font-family: "Open Sans", sans-serif;
   font-size: 1.2em;
+  line-height: 1.75;
 }
 
 .blog.entry.content-container p>img {
   display: block;
-  margin-left: -10%;
-  width: 120% !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* about author info */

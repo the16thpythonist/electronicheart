@@ -242,15 +242,23 @@ img.experience-image:after {
 
 .contact-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
 .contact-item {
   margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.contact-item:hover {
+  cursor: pointer;
+  transform: scale(1.04);
+  color: #f1c453;
 }
 
 .contact i {

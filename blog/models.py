@@ -206,7 +206,6 @@ class Entry(models.Model):
     def fa_icon(self):
         return self.ICON_MAP[self.type]
 
-    # TODO: Replace this with just having the "view_name", that would seem cleaner and not so hacky.
     @property
     def url(self) -> str:
         """

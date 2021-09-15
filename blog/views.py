@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
 # https://stackoverflow.com/questions/739776/how-do-i-do-an-or-filter-in-a-django-query
 from django.db.models import Q
+from django.db.models.functions import Length
 
 from .models import get_most_recent_entries, get_entries
 from .models import Entry
@@ -125,12 +126,12 @@ class EntryListView(BlogView):
         if request.GET and 'search' in request.GET:
             search_string = request.GET['search']
             # Most important are titles
-            entries = Entry.objects.filter(Q(title__icontains=search_string) |
-                                           Q(subtitle__icontains=search_string)).all()
+            title_entries = Entry.objects.filter(Q(title__icontains=search_string) |
+                                                 Q(subtitle__icontains=search_string)).all()
 
             # And only then we want to list the "semi related" posts which contain the search in the fulltext
-            entries += Entry.objects.filter(text__icontains=search_string).all()
-            context['objects'] = entries
+            fulltext_entries = Entry.objects.filter(text__icontains=search_string).all()
+            context['objects'] = (title_entries | fulltext_entries).distinct().order_by(Length('content').desc())
             context['title'] += f'<br>search: "{search_string}"'
             context['search'] = search_string
 
@@ -147,10 +148,10 @@ class EntryListView(BlogView):
             entries = Entry.objects.filter(publishing_date__lte=datetime.datetime.now(),
                                            **self.filter_kwargs)\
                                    .order_by('-publishing_date')[:self.entry_count]
-            context['objects'] = list(entries)
+            context['objects'] = entries
 
         if len(context['objects']) != 0:
-            context['older'] = context['objects'][-1].publishing_date
+            context['older'] = list(context['objects'])[-1].publishing_date
 
 
 class TutorialListView(EntryListView):

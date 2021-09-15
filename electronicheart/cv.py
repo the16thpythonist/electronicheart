@@ -7,6 +7,21 @@ import datetime
 
 from django.conf import settings
 
+thesis_project = None
+projects = []
+
+try:
+    from blog.models import Entry
+
+    thesis_project = Entry.objects.get(type=Entry.TYPE_PROJECT, slug='bachelorthesis')
+
+    projects = [
+        thesis_project
+    ]
+
+except ImportError:
+    pass
+
 
 def static_url(relative_path: str) -> str:
     return os.path.join(settings.STATIC_URL, relative_path)
@@ -77,7 +92,7 @@ CV = {
             'to': 'March 2021',
             'links': [
                 {'title': 'KIT Homepage', 'url': 'https://www.kit.edu/english/index.php'},
-                {'title': 'Bachelors Thesis', 'url': ''}
+                {'title': 'Bachelors Thesis', 'url': thesis_project.url if thesis_project else ''}
             ]
         },
         {
@@ -254,9 +269,7 @@ CV = {
             ]
         ]
     },
-    'projects': [
-
-    ],
+    'projects': projects,
     'publications': [
 
     ],
