@@ -207,8 +207,15 @@ class DownloadJupyterNotebookView(View):
 
         # TODO: At some point I think I also want to enable ZIP files here and I would have to add a if clause for
         #       differing content types.
-        with open(notebook.jupyter_file.path) as file:
+        file_path = notebook.jupyter.jupyter_file.path
+
+        with open(file_path) as file:
             content = file.read()
-            response = HttpResponse(content, content_type='application/x-ipynb')
-            response['Content-Disposition'] = f'inline; filename={os.path.basename(notebook.jupyter_file.path)}'
+
+            if '.ipynb' in file_path:
+                response = HttpResponse(content, content_type='application/x-ipynb')
+            elif '.zip' in file_path:
+                response = HttpResponse(content, content_type='application/zip')
+
+            response['Content-Disposition'] = f'inline; filename={os.path.basename(file_path)}'
             return response
