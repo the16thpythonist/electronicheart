@@ -209,13 +209,12 @@ class DownloadJupyterNotebookView(View):
         #       differing content types.
         file_path = notebook.jupyter.jupyter_file.path
 
-        with open(file_path) as file:
-            content = file.read()
+        if '.ipynb' in file_path:
+            with open(file_path, mode='r') as file:
+                response = HttpResponse(file.read(), content_type='application/x-ipynb')
+        elif '.zip' in file_path:
+            with open(file_path, mode='rb') as file:
+                response = HttpResponse(file.read(), content_type='application/zip')
 
-            if '.ipynb' in file_path:
-                response = HttpResponse(content, content_type='application/x-ipynb')
-            elif '.zip' in file_path:
-                response = HttpResponse(content, content_type='application/zip')
-
-            response['Content-Disposition'] = f'inline; filename={os.path.basename(file_path)}'
-            return response
+        response['Content-Disposition'] = f'inline; filename={os.path.basename(file_path)}'
+        return response
