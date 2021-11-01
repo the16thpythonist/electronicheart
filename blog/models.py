@@ -228,6 +228,9 @@ class Entry(models.Model):
         view_name = f'{BlogAppConfig.name}:{self.type}'
         return reverse_lazy(view_name, kwargs={'slug': self.slug})
 
+    def __str__(self):
+        return f'{self.type.upper()}: {self.title}'
+
 
 class JupyterNotebookExtension(models.Model):
 
