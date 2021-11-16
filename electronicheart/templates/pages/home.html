@@ -199,6 +199,24 @@
       <h1>Publications</h1>
       <div class="separator"></div>
       {% if publications %}
+        {% for publication in publications %}
+          <div class="publication-list">
+            <a class="publication-item" href="{{ publication.href }}">
+              {% if publication.pending %}
+                <div class="publication-pending">PUBLICATION PENDING</div>
+              {% endif %}
+              <div class="publication-title">
+                {{ publication.title }}
+              </div>
+              <div class="publication-authors">
+                {{ publication.authors|join:", " }}
+              </div>
+              <div class="publication-journal">
+                {{ publication.journal }}
+              </div>
+            </a>
+          </div>
+        {% endfor %}
       {% else %}
         <div>
           No publications yet...
@@ -222,6 +240,8 @@
       </div>
     </div>
   </div>
+
+  <!-- WORKING HOURS -->
 
   {% render_bundle 'chunk-common' %}
   {% render_bundle 'frontpage' %}

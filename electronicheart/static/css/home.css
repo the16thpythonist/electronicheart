@@ -238,6 +238,10 @@ img.experience-image:after {
   height: auto;
 }
 
+.projects-container > a.blog.entry-item-container {
+  border-color: #878787;
+}
+
 /* THE CONTACT SECTION */
 
 .contact-container {
@@ -265,4 +269,53 @@ img.experience-image:after {
   font-size: 1.3em;
   margin-right: 10px;
   opacity: 0.8;
+}
+
+/* PUBLICATIONS STYLING */
+
+.publication-item {
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #878787;
+  padding: 10px;
+  flex-direction: row;
+  line-height: 1.5;
+}
+
+.publication-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.publication-authors {
+  color: black;
+}
+
+.publication-journal {
+  color: gray;
+}
+
+.publication-pending {
+  position: absolute;
+  font-size: 0.6em;
+  bottom: 10px;
+  right: 10px;
+  border-style: solid;
+  border-color: darkgray;
+  border-radius: 3px;
+  border-width: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: rgba(0,0,0,0.03);
+  color: gray;
+  line-height: 2;
+}
+
+.publication-list {
+  margin-bottom: 60px;
+  position: relative;
+  flex-direction: column;
+  display: flex;
 }

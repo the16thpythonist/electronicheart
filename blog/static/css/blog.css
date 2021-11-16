@@ -495,8 +495,12 @@ div.blog.entry-container>div#notebook {
   line-height: 24px;
 }
 
-div.blog.entry-container>div#notebook .input-area {
+div.blog.entry-container>div#notebook .input_area {
   font-size: 0.75em
+}
+
+div.blog.entry-container>div#notebook .MathJax_Display {
+  margin-top: 6px;
 }
 
 div.blog.entry-container>div#notebook>div#notebook-container {

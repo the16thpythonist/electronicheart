@@ -48,7 +48,7 @@ CV = {
             'domains such as command line applications, GUIs, machine learning, optimization algorithms, game and web '
             'development.'
         ),
-        'image_url': static_url('images/profile_picture.jpg'),
+        'image_url': static_url('images/profile_picture.png'),
         'name': 'Jonas Teufel',
         'age': f'{get_age()} years',
         'location': 'Karlsruhe, Germany'
@@ -271,7 +271,22 @@ CV = {
     },
     'projects': projects,
     'publications': [
-
+        {
+            'title': (
+                'Towards interactive coordination of heterogeneous robotic teams - '
+                'Introduction of a reoptimization frame work'
+            ),
+            'authors': [
+                'Esther Bischoff',
+                'Jonas Teufel',
+                'Jairo Inga',
+                'Sören Hohmann'
+            ],
+            'journal': '2021 IEEE International Conference on Systems, Man and Cybernetics (SMC)',
+            'year': 2021,
+            'pending': True,
+            'href': ''
+        }
     ],
     'contacts': [
         {
