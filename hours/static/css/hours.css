@@ -1,0 +1,27 @@
+.center-container {
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: 200px;
+  font-family: "Open Sans", sans-serif;
+}
+
+h1 {
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+  text-align: center;
+  font-size: 1.6em;
+}
+
+.plot-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.plot-container img {
+  height: 800px;
+}

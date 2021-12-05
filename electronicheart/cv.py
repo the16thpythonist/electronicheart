@@ -274,7 +274,7 @@ CV = {
         {
             'title': (
                 'Towards interactive coordination of heterogeneous robotic teams - '
-                'Introduction of a reoptimization frame work'
+                'Introduction of a reoptimization framework'
             ),
             'authors': [
                 'Esther Bischoff',

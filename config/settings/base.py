@@ -89,9 +89,10 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "electronicheart.users.apps.UsersConfig",
     "electronicheart.webpack_bundle.apps.WebpackBundleConfig",
+    # Your stuff: custom apps go here
     "blog.apps.BlogAppConfig",
     "fruit.apps.FruitConfig",
-    # Your stuff: custom apps go here
+    "hours.apps.HoursConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -324,3 +325,51 @@ THUMBNAIL_HIGH_RESOLUTION = True
 # from env variables. The code for this will overwrite these definitions in the production specific settings file
 MATOMO_DOMAIN_PATH = 'localhost'
 MATOMO_SITE_ID = '1'
+
+
+# Harvest Working Hours
+# ------------------------------------------------------------------------------
+# This configuration is mainly for the "hours" app. The purpose of this app is essentially to
+# communicate with the Harvest time tracking API for a user (myself) and then process the time
+# tracking data into some nice looking matplotlib plots, which are then displayed on the website.
+
+# This dict essentially defines which kinds of different projects are supposed to be handled
+# differently. To make this compatible with the free version of Harvest time tracking, the separate
+# projects hereby do not reflect the notion of "projects" in Harvest. Rather all time is tracked in
+# a single harvest project and then differentiated by the harvest "tasks". This combination makes up
+# the keys for this dict. The keys are tuples where the first element is the name of the actual
+# harvest project and the second element is the name of the harvest task. The values to these keys
+# are settings which control various aspects of the visualization of the time tracking data for these
+# projects, such as the primary color associated with that project or the label to be used in the
+# plots.
+HARVEST_PROJECTS = {
+    ('Personal', 'Uni'): {
+        'color': '#75FFC1',
+        'label': 'University'
+    },
+    ('Personal', 'Praxis der Forschung'): {
+        'color': '#FF75B3',
+        'label': 'Research'
+    },
+    ('Personal', 'Work IPE'): {
+        'color': '#FFC175',
+        'label': 'Work'
+    },
+    ('Personal', 'Website'): {
+        'color': '#75B3FF',
+        'label': 'Website'
+    }
+}
+
+# For each user/organization the harvest time tracking app has a separate API url, this needs to
+# be known to send requests to it.
+# SHOULD REMAIN SECRET. SUPPLY VIA ENV VARIABLES
+HARVEST_API_URL = env('HARVEST_API_URL', default='')
+
+# To make authenticated requests to the harvest api one obviously needs a personal API key, as well
+# as the account ID
+# SHOULD REMAIN SECRET. SUPPLY VIA ENV VARIABLES
+HARVEST_ACCOUNT_ID = env('HARVEST_ACCOUNT_ID', default='')
+HARVEST_ACCESS_TOKEN = env('HARVEST_ACCESS_TOKEN', default='')
+
+HARVEST_DATETIME_FORMAT = '%Y-%m-%d'

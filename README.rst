@@ -209,6 +209,12 @@ Then open the ".django" file and fill it with the following env values, replacin
 
     REDIS_URL=redis://redis:6379/0
 
+    # Harvest
+    # ------------------------------------------------------------------------------
+    HARVEST_API_URL={URL TO HARVEST}
+    HARVEST_ACCOUNT_ID={INTEGER ACCOUNT ID}
+    HARVEST_ACCESS_TOKEN={VERY LONG TOKEN STRING}
+
 Using docker compose we can then build the necessary containers. For this navigate back to the top level folder first.
 
 .. code-block:: bash

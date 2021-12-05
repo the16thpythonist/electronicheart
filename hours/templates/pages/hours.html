@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css%}
+  <link href="{% static 'css/entry_list.css' %}" rel="stylesheet">
+  <link href="{% static 'css/hours.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+  <div class="center-container">
+
+    <div class="introduction-container">
+      <h1>My Working Hours</h1>
+      <div class="introduction">
+        I make my working hours public to add some accountability and to remind myself not to slack off too much :)
+      </div>
+    </div>
+
+    <div class="plot-container">
+      <div>
+        <img src="{{ object.daily_hours_plot.url }}">
+      </div>
+      <div>
+        <img src="{{ object.weekly_hours_plot.url }}">
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}

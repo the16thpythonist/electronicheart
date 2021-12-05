@@ -1,13 +1,13 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from .views import HomepageView
+from .views import WorkingHoursView
 
-app_name = "electronicheart"
+app_name = "hours"
 
 urlpatterns = [
     path(
         "",
-        HomepageView.as_view(),
-        name="home",
+        WorkingHoursView.as_view(),
+        name="hours",
     )
 ]

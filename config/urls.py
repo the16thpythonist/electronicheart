@@ -12,6 +12,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # The "electronic heart app"
     path("home/", include("electronicheart.urls", namespace="electronicheart")),
+    path("working-hours/", include("hours.urls", namespace="hours")),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),

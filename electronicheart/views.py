@@ -48,3 +48,5 @@ class HomepageView(NavView):
         return render(request, self.template, context=context)
 
 
+
+
