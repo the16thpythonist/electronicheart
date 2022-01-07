@@ -165,7 +165,7 @@ CV = {
                 {
                     'name': 'Unity',
                     'classes': ['secondary'],
-                    'rating': [1, 0, 0, 0, 0],
+                    'rating': [1, 1, 0, 0, 0],
                     'icon_url': static_url('images/favicons/unity.ico')
                 }
             ],
