@@ -484,6 +484,39 @@ ul.errorlist {
   color: darkred;
 }
 
+sup>a {
+  color: orange;
+}
+
+sup>a:hover {
+  color: #f1c453;
+}
+
+div.bibliography {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+div.bibliography>a.citation {
+  margin-bottom: 20px;
+}
+
+div.bibliography>a.citation>sup {
+  color: orange;
+}
+
+div.bibliography>a.citation>span.title {
+  font-style: italic;
+}
+
+div.bibliography>a.citation>span.url {
+  font-family: monospace;
+  text-decoration: underline;
+  font-size: 0.9em;
+}
+
 /* Specifically adjusting the styling of the jupyter notebook elements so that they fit into the blog page.
  */
 

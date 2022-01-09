@@ -13,14 +13,16 @@ projects = []
 try:
     from blog.models import Entry
 
+    pdf_project = Entry.objects.get(type=Entry.TYPE_PROJECT, slug='pdf')
     thesis_project = Entry.objects.get(type=Entry.TYPE_PROJECT, slug='bachelorthesis')
 
     projects = [
-        thesis_project
+        pdf_project,
+        thesis_project,
     ]
 
-except ImportError:
-    pass
+except (ImportError, Entry.DoesNotExist) as e:
+    print("PROJECTS ERROR!")
 
 
 def static_url(relative_path: str) -> str:
@@ -296,7 +298,7 @@ CV = {
         },
         {
             'content': 'Jonas Teufel',
-            'href': '',
+            'href': 'https://de.linkedin.com/in/jonas-teufel-71a93618a',
             'icon': '<i class="fa fa-linkedin"></i>'
         }
     ]
